@@ -1,0 +1,27 @@
+package tenisz;
+
+import javax.swing.JFrame;
+
+public class GUI extends JFrame{
+	
+	/**
+	 * 600*400
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public void showMenu() {
+		// TODO Auto-generated method stub
+	}
+	
+	public void showOptions() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void showGameField() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+}
