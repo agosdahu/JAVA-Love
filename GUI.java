@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 public class GUI extends JFrame{
 	
 	/**
-	 * 600*400
+	 * 600*400 gamefield
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -19,6 +19,11 @@ public class GUI extends JFrame{
 	}
 
 	public void showGameField() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void showResult() {
 		// TODO Auto-generated method stub
 		
 	}
