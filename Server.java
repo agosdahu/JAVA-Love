@@ -7,7 +7,7 @@ public class Server extends Network {
 	}
 	
 	@Override
-	void connect(String ip) {
+	void connect(String ip, int port) {
 		
 	}
 

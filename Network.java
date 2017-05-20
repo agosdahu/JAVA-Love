@@ -3,18 +3,14 @@ package tenisz;
 public abstract class Network {
 	
 
-	abstract void connect(String string);
+	abstract void connect(String ipAddress, int port);
 	abstract void disconnect();
 	
-	public void sendRacketPos(int x, int y) {
+	public void sendRacketPos(int y) {
 		// TODO Auto-generated method stub
 		
 	}
-	public int getRacketPosX() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	public int getRacketPosY() {
+	public int getRacketPos() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
