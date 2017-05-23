@@ -113,6 +113,7 @@ class Control {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			score.setScore(score.getScore());
 			startNewSet();
 		}
 	}
