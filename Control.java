@@ -26,6 +26,22 @@ class Control {
 		showMenu();
 	}
 	
+	public boolean getplayer1Up() {
+		return player1Up;
+	}
+
+	public void setplayer1Up(boolean up) {
+		this.player1Up = up;
+	}
+	
+	public boolean getplayer1Down() {
+		return player1Down;
+	}
+
+	public void setplayer1Down(boolean down) {
+		this.player1Down = down;
+	}
+	
 	public void selectOptions(){
 		gui.showOptions();
 	}
@@ -68,8 +84,9 @@ class Control {
 	}
 
 	public void startGame(){
+		score.setScore(score.getScore());
 		score.setCurrentScore(0, 0);
-		this.startNewSet();
+		startNewSet();
 	}
 	
 
@@ -148,7 +165,8 @@ class Control {
 				}
 		}
 		if(player1Score == score.getScore() || player2Score == score.getScore()){
-			saveGame(0, 0);
+			if(player1.getType()=="Server")
+				saveGame(0, 0);
 			gui.showResult();
 		}
 	}
