@@ -4,21 +4,21 @@ class Control {
 	
 	private GUI gui;
 	private Network net = null;
-	private DB db;
+	private DB db = new DB();
 	private String ipAddress;
 	private int port;
 	
-	private Player player1;
+	private Player player1 = new Player("Player", 0, 0, 5);
 	private boolean player1Up = false;
 	private boolean player1Down = false;
 	
-	private Player player2;
+	private Player player2 = new Player("Player", 0, 0, 5);
 	
-	private Ball ball;
+	private Ball ball = new Ball(0, 0, 5, 5, 10);
 	private boolean ballUp = true;	// true: UP direction, false: DOWN direction
 	private boolean ballRight = true; //true: RIGHT direction, false: LEFT direction
 	
-	private Score score;
+	private Score score = new Score(0, null);
 
 	
 
