@@ -1,3 +1,4 @@
+
 package tenisz;
 
 
@@ -61,7 +62,7 @@ public class GUI extends JFrame{
 		// TODO Auto-generated method stub
 		pr = new Pr(control);
 	//	pr.initialize(control);
-		//prmenu.frame.setVisible(false); // ez nem azt csinálja, mint amit akartam
+		//prmenu.frame.setVisible(false); // ez nem azt csinï¿½lja, mint amit akartam
 		
 	}
 
