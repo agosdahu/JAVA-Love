@@ -10,7 +10,7 @@ public class Player {
 		
 		private int pos_x, pos_y;
 		
-		private int speed;
+		private int speed = 5;
 		
 		public Player(String name, int pos_x, int pos_y, int s){
 			this.name = name;

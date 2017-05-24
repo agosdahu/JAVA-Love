@@ -1,30 +1,50 @@
+
 package tenisz;
 
 class Control {
 	
-	private GUI gui;
+	private GUI gui = new GUI();
 	private Network net = null;
+	private DB db = new DB();
+	private String ipAddress;
+	private int port;
 	
-	private Player player1;
+	private Player player1 = new Player("Player", 0, 0, 5);
 	private boolean player1Up = false;
 	private boolean player1Down = false;
 	
-	private Player player2;
+	private Player player2 = new Player("Player", 0, 0, 5);
 	
-	private Ball ball;
+	private Ball ball = new Ball(0, 0, 5, 5, 10);
 	private boolean ballUp = true;	// true: UP direction, false: DOWN direction
 	private boolean ballRight = true; //true: RIGHT direction, false: LEFT direction
 	
-	private Score score;
+	private Score score = new Score(0, null);
 
 	
 
-	Control() {
+	public Control() {
 		showMenu();
 	}
 	
+	public boolean getplayer1Up() {
+		return player1Up;
+	}
+
+	public void setplayer1Up(boolean up) {
+		this.player1Up = up;
+	}
+	
+	public boolean getplayer1Down() {
+		return player1Down;
+	}
+
+	public void setplayer1Down(boolean down) {
+		this.player1Down = down;
+	}
+	
 	public void selectOptions(){
-		gui.showOptions();
+		gui.showOptions(this);
 	}
 	
 	public void setName(String newName){
@@ -36,14 +56,16 @@ class Control {
 	}
 	
 	public void showMenu(){
-		gui.showMenu();
+		gui.showMenu(this);
 	}
 	
 	public void startServer() {
 		if (net != null)
 			net.disconnect();
 		net = new Server(this);
-		net.connect("localhost");
+		ipAddress = gui.getIPaddress();
+		port = gui.getPort();
+		net.connect(ipAddress, port);
 		player1.setType("Server");
 	}
 	
@@ -51,7 +73,9 @@ class Control {
 		if (net != null)
 			net.disconnect();
 		net = new Client(this);
-		net.connect("localhost");
+		ipAddress = gui.getIPaddress();
+		port = gui.getPort();
+		net.connect(ipAddress, port);
 		player1.setType("Client");
 	}
 	
@@ -61,18 +85,49 @@ class Control {
 	}
 
 	public void startGame(){
+		score.setScore(score.getScore());
 		score.setCurrentScore(0, 0);
-		this.startNewSet();
+		startNewSet();
 	}
 	
-	/*
+
 	public void loadGame(){
-		int player1Score;
-		int player2Score;
-		score.setCurrentScore(player1Score, player2Score);
-		this.startNewSet();
+		int record = 0;
+		int compare = player1.getName().compareToIgnoreCase(player2.getName());
+		try {
+			record = db.searchRecord(player1.getName(), player2.getName());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (record == 0)
+			startGame();
+		else{
+			try {
+				if(compare <=0){
+					score.setCurrentScore(db.getPlayer1Score(record), db.getPlayer2Score(record));
+				}else{
+					score.setCurrentScore(db.getPlayer2Score(record), db.getPlayer1Score(record));
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			score.setScore(score.getScore());
+			startNewSet();
+		}
 	}
-	*/
+	
+	public void saveGame(int player1Score, int player2Score){
+		
+		try {
+			db.save(player1.getName(), player2.getName(), player1Score, player2Score);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 		
 	private void startNewSet() {
 		if(player1.getType() == "Server"){
@@ -93,7 +148,7 @@ class Control {
 		ball.setSpeed(ball.getNormalSpeed());
 	}
 	
-	public void startSet(){
+	public void startSet() throws Exception{
 		int player1Score = score.getCurrentScore()[1];
 		int player2Score = score.getCurrentScore()[2];
 		
@@ -112,6 +167,8 @@ class Control {
 				}
 		}
 		if(player1Score == score.getScore() || player2Score == score.getScore()){
+			if(player1.getType()=="Server")
+				saveGame(0, 0);
 			gui.showResult();
 		}
 	}
@@ -201,9 +258,8 @@ class Control {
 			player1.setY(player1.getY() - player1.getSpeed());
 		else 
 			player1.setY(player1.getY());
-		net.sendRacketPos(player1.getX(), player1.getY());
-		player2.setX(net.getRacketPosX());
-		player2.setY(net.getRacketPosY());
+		net.sendRacketPos(player1.getY());
+		player2.setY(net.getRacketPos());
 	}
 	
 	private void updateScore(int player1Score, int player2Score) {

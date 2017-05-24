@@ -1,3 +1,4 @@
+
 package tenisz;
 
 public class Ball {
@@ -8,15 +9,16 @@ public class Ball {
 		private int x;
 		private int y;
 		
-		private int speed;
-		private int normalSpeed;
-		private int bendSpeed;
+		private int speed = 5;	
+		private int normalSpeed = 5;
+		private int bendSpeed = 10;
 
-		public Ball(int x, int y, int s, int bendSpeed){
+		public Ball(int x, int y, int s, int normalSpeed, int bendSpeed){
 			this.x = x;
 			this.y = y;
 			this.speed = s;
-			this.setBendSpeed(bendSpeed);
+			this.normalSpeed = normalSpeed;
+			this.bendSpeed = bendSpeed;
 		}
 		
 		public int getWidth(){
