@@ -62,7 +62,7 @@ class Control {
 		if (net != null)
 			net.disconnect();
 		net = new Server(this);
-	//	ipAddress = gui.getIPaddress();
+		ipAddress = gui.getIPaddress();
 		port = gui.getPort();
 		net.connect(ipAddress, port);
 		player1.setType("Server");

@@ -14,12 +14,13 @@ import java.awt.event.MouseEvent;
 public class Prmenu {
 
 	public JFrame frame;
-	private static Control control = new Control();
+//	private static Control control = new Control();
 	private GUI gui = new GUI();
 
 	/**
 	 * Launch the application.
 	 */
+	/*
 	 public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -32,12 +33,12 @@ public class Prmenu {
 			}
 		});
 	}
- 
+ */
 	/**
 	 * Create the application.
 	 */
 	 public Prmenu(Control control) {
-		initialize();
+		initialize(control);
 	}
 
 	/**
@@ -45,7 +46,7 @@ public class Prmenu {
 	 * @wbp.parser.entryPoint
 	 */
 	/*private void initialize() { */
-	public void initialize() {
+	public void initialize(Control control) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
