@@ -2,7 +2,7 @@ package tenisz;
 
 class Control {
 	
-	private GUI gui;
+	private GUI gui = new GUI();
 	private Network net = null;
 	private DB db = new DB();
 	private String ipAddress;
@@ -22,7 +22,7 @@ class Control {
 
 	
 
-	Control() {
+	public Control() {
 		showMenu();
 	}
 	
@@ -43,7 +43,7 @@ class Control {
 	}
 	
 	public void selectOptions(){
-		gui.showOptions();
+		gui.showOptions(this);
 	}
 	
 	public void setName(String newName){
@@ -55,14 +55,14 @@ class Control {
 	}
 	
 	public void showMenu(){
-		gui.showMenu();
+		gui.showMenu(this);
 	}
 	
 	public void startServer() {
 		if (net != null)
 			net.disconnect();
 		net = new Server(this);
-		ipAddress = gui.getIPaddress();
+	//	ipAddress = gui.getIPaddress();
 		port = gui.getPort();
 		net.connect(ipAddress, port);
 		player1.setType("Server");
