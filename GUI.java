@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
+//import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class GUI extends JFrame{
@@ -15,10 +15,14 @@ public class GUI extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	// private Menu menu;
-	private JFrame frame;
+	//private JFrame frame;
 	private Control control;
 	private Prmenu prmenu;
 	private Pr pr;
+	private PrIP prip;
+	private PrPort prport;
+	private String ip;
+	private int port;
 
 	public void showMenu() {
 		// TODO Auto-generated method stub
@@ -57,7 +61,7 @@ public class GUI extends JFrame{
 		// TODO Auto-generated method stub
 		pr = new Pr();
 		pr.initialize();
-		prmenu.frame.setVisible(false); // ez nem azt csinálja, mint amit akartam
+		//prmenu.frame.setVisible(false); // ez nem azt csinálja, mint amit akartam
 		
 	}
 
@@ -73,13 +77,17 @@ public class GUI extends JFrame{
 
 	public String getIPaddress() {
 		// TODO Auto-generated method stub
-		return null;
+		prip = new PrIP();
+		ip = prip.initialize();
+		return ip;
 	}
 
 	public int getPort() {
 		// TODO Auto-generated method stub
-		return 0;
+		prport = new PrPort();
+		port = prport.initialize();
+		return port;
 	}
 
-
+	
 }
