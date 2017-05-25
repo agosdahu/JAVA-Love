@@ -23,6 +23,8 @@ public class GUI extends JFrame{
 	private PrPort prport;
 	private String ip;
 	private int port;
+	private PrGamefield prgamefield;
+	private PrResult prresult;
 
 	public void showMenu() {
 		// TODO Auto-generated method stub
@@ -55,6 +57,8 @@ public class GUI extends JFrame{
 		prmenu = new Prmenu();
 		prmenu.initialize();
 		
+		
+		
 	}
 	
 	public void showOptions() {
@@ -67,12 +71,15 @@ public class GUI extends JFrame{
 
 	public void showGameField() {
 		// TODO Auto-generated method stub
+		prgamefield = new PrGamefield();
+		prgamefield.initialize(control.player1, control.player2, control.score, control.ball);
 		
 	}
 
 	public void showResult() {
 		// TODO Auto-generated method stub
-		
+		prresult = new PrResult();
+		prresult.initialize(control.score, control.player1, control.player2);
 	}
 
 	public String getIPaddress() {

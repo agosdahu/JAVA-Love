@@ -3,33 +3,38 @@ package tenisz;
 // import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
+//import javax.swing.JPopupMenu;
+//import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JMenuItem;
-import javax.swing.JMenuBar;
+//import javax.swing.JMenuItem;
+//import javax.swing.JMenuBar;
 import javax.swing.JTextField;
-import java.awt.BorderLayout;
+//import java.awt.BorderLayout;
 import javax.swing.JLabel;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import java.awt.CardLayout;
+//import javax.swing.Box;
+//import javax.swing.BoxLayout;
+//import java.awt.FlowLayout;
+//import java.awt.CardLayout;
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.JEditorPane;
-import java.awt.TextField;
+//import java.awt.GridBagLayout;
+//import java.awt.GridBagConstraints;
+//import javax.swing.JEditorPane;
+//import java.awt.TextField;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class Pr {
 
 	private JFrame frame;
 	private JTextField txtName;
-	private JTextField txtGoal;
 	private JButton btnSave;
+	public String name;
+	public int goal;
+	public Player player;
+	private Control control = new Control();
 
 	/**
 	 * Launch the application.
@@ -74,21 +79,32 @@ public class Pr {
 		
 		JLabel lblGoal = new JLabel("Goal: ");
 		
-		txtGoal = new JTextField();
-		txtGoal.setText("goal");
-		txtGoal.setColumns(10);
+		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(15, 5, 30, 1));
 		
 		btnSave = new JButton("Save");
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// itt kell elmenteni a beírt dolgokat
+				 name = txtName.getText();
+				 control.setName(name);
+				 //player.setName(name);
+				 //player.name = player.getName();
+				 
+				 goal = (int)spinner.getModel().getValue();
+				 control.setScore(goal);
+				 
+				 frame.setVisible(false);
+				 
 			}
 		});
 		
+		
+		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(32)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -96,12 +112,12 @@ public class Pr {
 						.addComponent(lblGoal))
 					.addGap(73)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtGoal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblOptions))
+						.addComponent(lblOptions)
+						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(173, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap(297, Short.MAX_VALUE)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(333, Short.MAX_VALUE)
 					.addComponent(btnSave)
 					.addGap(38))
 		);
@@ -116,15 +132,13 @@ public class Pr {
 								.addComponent(lblName)
 								.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 					.addGap(30)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblGoal)
-						.addComponent(txtGoal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(57)
+						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(63)
 					.addComponent(btnSave)
 					.addContainerGap(44, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
-
-
 }

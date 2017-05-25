@@ -1,0 +1,182 @@
+package tenisz;
+
+import java.awt.EventQueue;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Label;
+
+import javax.swing.*;
+
+import javax.swing.JFrame;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JPanel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.BorderLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+public class PrGamefield /*extends JPanel*/{
+
+	private JFrame frame;
+	//public Player plyr1 = new Player("mosomaci", 5, 30, 5); 
+	//public Player plyr2 = new Player("vidra", 590, 60, 5); 
+	private Control control = new Control();
+	//public Ball ball = new Ball(90, 150, 5, 5, 5);
+	
+	//private int goal = 15;
+	//private int[] cur_score = {5, 7};
+	//public Score score = new Score(goal, cur_score);
+	//private Graphics g;
+
+	
+
+	/**
+	 * Launch the application.
+	 * @wbp.parser.entryPoint
+	 */
+	/*public static void main(String[] args) {
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PrGamefield window = new PrGamefield();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}*/
+
+	/**
+	 * Create the application.
+	 */
+	/*public PrGamefield() {
+		initialize(plyr1, plyr2, score);
+		this.score = score; 
+	
+	}*/
+
+	/**
+	 * Initialize the contents of the frame.
+	 * @wbp.parser.entryPoint
+	 */
+	
+	
+	
+	/**
+	 * @wbp.parser.entryPoint
+	 *
+	 */
+	public void initialize(Player plyr1, Player plyr2, Score score, Ball ball) {
+		frame = new JFrame();
+		Teglalap t = new Teglalap(plyr1, plyr2, ball);
+		t.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode()==38)
+			    {
+			            //Up arrow key code
+					control.setplayer1Up(true);
+					control.setplayer1Down(false);
+			    }
+			    else if (e.getKeyCode()==40)
+			    {
+			            //down arrow key code
+			    	control.setplayer1Down(true);
+			    	control.setplayer1Up(false);
+			    }
+			    else {
+			    	control.setplayer1Up(false);
+			    	control.setplayer1Down(false);
+			    }
+
+				
+			}
+		});
+	    //frame.getContentPane().add(t, BorderLayout.NORTH);
+		frame.getContentPane().add(t);
+	    //Uto u1 = new Uto(plyr);
+	    //frame.getContentPane().add(u1);
+	    //frame.add(u1);
+	    //frame.getContentPane().add(u1);
+	    //frame.getContentPane().add(u1);
+	    
+	    
+	    JButton btnNewButton = new JButton("Load");
+	    btnNewButton.addMouseListener(new MouseAdapter() {
+	    	@Override
+	    	public void mouseClicked(MouseEvent e) {
+	    		// mentett játék betöltése
+	    		control.loadGame();
+	    	}
+	    });
+	    btnNewButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    	}
+	    });
+	    
+	    JButton btnSave = new JButton("Save");
+	    btnSave.addMouseListener(new MouseAdapter() {
+	    	@Override
+	    	public void mouseClicked(MouseEvent e) {
+	    		// mentés
+	    		control.saveGame(score.getCurrentScore()[0], score.getCurrentScore()[1]);
+	    	}
+	    });
+	    
+	    JLabel lblNewLabel = new JLabel(plyr1.name);
+	    
+	    JLabel lblNewLabel_1 = new JLabel(plyr2.name);
+	    
+	    JLabel lblNewLabel_2 = new JLabel("" + score.getCurrentScore()[0]);
+	    
+	    JLabel lblNewLabel_3 = new JLabel("" + score.getCurrentScore()[1]);
+	    GroupLayout gl_t = new GroupLayout(t);
+	    gl_t.setHorizontalGroup(
+	    	gl_t.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(gl_t.createSequentialGroup()
+	    			.addGap(104)
+	    			.addComponent(lblNewLabel)
+	    			.addGap(54)
+	    			.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+	    			.addGap(192)
+	    			.addComponent(lblNewLabel_1)
+	    			.addGap(56)
+	    			.addComponent(lblNewLabel_3))
+	    		.addGroup(gl_t.createSequentialGroup()
+	    			.addGap(447)
+	    			.addComponent(btnSave)
+	    			.addGap(18)
+	    			.addComponent(btnNewButton))
+	    );
+	    gl_t.setVerticalGroup(
+	    	gl_t.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(gl_t.createSequentialGroup()
+	    			.addGap(34)
+	    			.addGroup(gl_t.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(lblNewLabel)
+	    				.addComponent(lblNewLabel_2)
+	    				.addComponent(lblNewLabel_1)
+	    				.addComponent(lblNewLabel_3))
+	    			.addGap(465)
+	    			.addGroup(gl_t.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(btnSave)
+	    				.addComponent(btnNewButton)))
+	    );
+	    t.setLayout(gl_t);
+		frame.setBounds(100, 100, 630, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+
+		
+		
+	}
+	
+	
+}

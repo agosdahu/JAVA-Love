@@ -13,7 +13,7 @@ public class Prmenu {
 
 	public JFrame frame;
 	private Control control = new Control();
-	private GUI gui = new GUI();
+	// private GUI gui = new GUI();
 
 	/**
 	 * Launch the application.
@@ -69,7 +69,7 @@ public class Prmenu {
 		btnOptions.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				gui.showOptions();
+				control.selectOptions();
 			}
 		});
 		

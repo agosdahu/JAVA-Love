@@ -4,26 +4,42 @@ class Control {
 	
 	private GUI gui = new GUI();
 	private Network net = null;
-	private DB db;
+	private DB db = new DB();
 	private String ipAddress;
 	private int port;
 	
-	private Player player1;
+	public Player player1 = new Player("Player", 0, 0, 5);
 	private boolean player1Up = false;
 	private boolean player1Down = false;
 	
-	private Player player2;
+	public Player player2 = new Player("Player", 0, 0, 5);
 	
-	private Ball ball;
+	public Ball ball = new Ball(0, 0, 5, 5, 10);
 	private boolean ballUp = true;	// true: UP direction, false: DOWN direction
 	private boolean ballRight = true; //true: RIGHT direction, false: LEFT direction
 	
-	private Score score;
+	public Score score = new Score(0, null);
 
 	
 
 	Control() {
 		// showMenu();
+	}
+	
+	public boolean getplayer1Up() {
+		return player1Up;
+	}
+
+	public void setplayer1Up(boolean up) {
+		this.player1Up = up;
+	}
+	
+	public boolean getplayer1Down() {
+		return player1Down;
+	}
+
+	public void setplayer1Down(boolean down) {
+		this.player1Down = down;
 	}
 	
 	public void selectOptions(){
@@ -68,8 +84,9 @@ class Control {
 	}
 
 	public void startGame(){
+		score.setScore(score.getScore());
 		score.setCurrentScore(0, 0);
-		this.startNewSet();
+		startNewSet();
 	}
 	
 
@@ -96,6 +113,7 @@ class Control {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			score.setScore(score.getScore());
 			startNewSet();
 		}
 	}
@@ -148,7 +166,8 @@ class Control {
 				}
 		}
 		if(player1Score == score.getScore() || player2Score == score.getScore()){
-			saveGame(0, 0);
+			if(player1.getType()=="Server")
+				saveGame(0, 0);
 			gui.showResult();
 		}
 	}
