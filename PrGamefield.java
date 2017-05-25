@@ -1,22 +1,16 @@
 package tenisz;
 
-import java.awt.EventQueue;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Label;
-
 import javax.swing.*;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.BorderLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -25,7 +19,7 @@ public class PrGamefield /*extends JPanel*/{
 	private JFrame frame;
 	//public Player plyr1 = new Player("mosomaci", 5, 30, 5); 
 	//public Player plyr2 = new Player("vidra", 590, 60, 5); 
-	private Control control = new Control();
+//	private Control control = new Control();
 	//public Ball ball = new Ball(90, 150, 5, 5, 5);
 	
 	//private int goal = 15;
@@ -56,11 +50,11 @@ public class PrGamefield /*extends JPanel*/{
 	/**
 	 * Create the application.
 	 */
-	/*public PrGamefield() {
-		initialize(plyr1, plyr2, score);
-		this.score = score; 
+	public PrGamefield(Control control) {
+		initialize(control);
+	//	this.score = score; 
 	
-	}*/
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -73,9 +67,14 @@ public class PrGamefield /*extends JPanel*/{
 	 * @wbp.parser.entryPoint
 	 *
 	 */
-	public void initialize(Player plyr1, Player plyr2, Score score, Ball ball) {
+	public void initialize(Control control) {
 		frame = new JFrame();
-		Teglalap t = new Teglalap(plyr1, plyr2, ball);
+		Teglalap t = new Teglalap(control);
+		t.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent e) {
+				frame.repaint();
+			}
+			});
 		t.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -126,17 +125,30 @@ public class PrGamefield /*extends JPanel*/{
 	    	@Override
 	    	public void mouseClicked(MouseEvent e) {
 	    		// mentés
-	    		control.saveGame(score.getCurrentScore()[0], score.getCurrentScore()[1]);
+	    		control.saveGame(control.getScore().getCurrentScorePlayer1(), control.getScore().getCurrentScorePlayer2());
 	    	}
 	    });
 	    
-	    JLabel lblNewLabel = new JLabel(plyr1.name);
+	    JLabel lblNewLabel = new JLabel(control.getPlayer1().getName());
 	    
-	    JLabel lblNewLabel_1 = new JLabel(plyr2.name);
+	    JLabel lblNewLabel_1 = new JLabel(control.getPlayer1().getName());
 	    
-	    JLabel lblNewLabel_2 = new JLabel("" + score.getCurrentScore()[0]);
+	    JLabel lblNewLabel_2 = new JLabel("" + control.getScore().getCurrentScorePlayer1());
+	    lblNewLabel_2.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent e) {
+				frame.repaint();
+			}
+			});
+
 	    
-	    JLabel lblNewLabel_3 = new JLabel("" + score.getCurrentScore()[1]);
+	    JLabel lblNewLabel_3 = new JLabel("" + control.getScore().getCurrentScorePlayer2());
+	    
+	    lblNewLabel_3.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent e) {
+				frame.repaint();
+			}
+			});
+	    
 	    GroupLayout gl_t = new GroupLayout(t);
 	    gl_t.setHorizontalGroup(
 	    	gl_t.createParallelGroup(Alignment.LEADING)
@@ -173,7 +185,7 @@ public class PrGamefield /*extends JPanel*/{
 		frame.setBounds(100, 100, 630, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-
+		frame.repaint();
 		
 		
 	}
