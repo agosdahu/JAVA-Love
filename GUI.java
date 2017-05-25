@@ -1,4 +1,3 @@
-
 package tenisz;
 
 
@@ -15,8 +14,6 @@ public class GUI extends JFrame{
 	 * 600*400 gamefield
 	 */
 	private static final long serialVersionUID = 1L;
-	// private Menu menu;
-	private JFrame frame;
 	//private Control control;
 	private Prmenu prmenu;
 	private Pr pr;
@@ -27,7 +24,7 @@ public class GUI extends JFrame{
 
 	public void showMenu(Control control) {
 		// TODO Auto-generated method stub
-		 frame = new JFrame();
+		/* frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -51,6 +48,7 @@ public class GUI extends JFrame{
 		});
 		frame.getContentPane().add(btnStartGame, BorderLayout.NORTH);
 		frame.getContentPane().add(btnJoinGame, BorderLayout.SOUTH); 
+		*/
 		
 	//	control = new Control();
 		prmenu = new Prmenu(control);
@@ -62,18 +60,16 @@ public class GUI extends JFrame{
 		// TODO Auto-generated method stub
 		pr = new Pr(control);
 	//	pr.initialize(control);
-		//prmenu.frame.setVisible(false); // ez nem azt csinï¿½lja, mint amit akartam
+		//prmenu.frame.setVisible(false); // ez nem azt csinálja, mint amit akartam
+		
+	}
+	public void showGameField(Control control) {
+		new PrGamefield(control);
 		
 	}
 
-	public void showGameField() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void showResult() {
-		// TODO Auto-generated method stub
-		
+	public void showResult(Control control) {
+		new PrResult(control);
 	}
 
 	public String getIPaddress() {

@@ -1,4 +1,3 @@
-
 package tenisz;
 
 
@@ -17,5 +16,8 @@ public class Main {
 		//c.showMenu();	
 		//GUI gui = new GUI();
 		//gui.showMenu();
+		//gui.showGameField(c);
 	}
+	
+	
 }

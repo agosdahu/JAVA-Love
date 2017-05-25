@@ -18,10 +18,26 @@ public abstract class Network {
 		// TODO Auto-generated method stub
 		
 	}
-	public int[] getData() {
+	public int getX() {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
+	
+	public int getY() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	public int getScore1() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	public int getScore2() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	
 
 

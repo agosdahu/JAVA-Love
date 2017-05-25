@@ -1,4 +1,3 @@
-
 package tenisz;
 
 public class Client extends Network {
