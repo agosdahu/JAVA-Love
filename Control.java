@@ -1,4 +1,3 @@
-
 package tenisz;
 
 class Control {
@@ -19,12 +18,44 @@ class Control {
 	private boolean ballUp = true;	// true: UP direction, false: DOWN direction
 	private boolean ballRight = true; //true: RIGHT direction, false: LEFT direction
 	
-	private Score score = new Score(0, null);
+	private Score score = new Score(5, 0, 0);
 
 	
 
 	public Control() {
 		showMenu();
+	}
+	
+	public Player getPlayer1() {
+		return player1;
+	}
+
+	public void setPlayer1(Player player) {
+		this.player1 = player;
+	}
+	
+	public Player getPlayer2() {
+		return player2;
+	}
+
+	public void setPlayer2(Player player) {
+		this.player2 = player;
+	}
+	
+	public Ball getBall() {
+		return ball;
+	}
+
+	public void setBall(Ball ball) {
+		this.ball = ball;
+	}
+	
+	public Score getScore() {
+		return score;
+	}
+
+	public void setScore(Score score) {
+		this.score = score;
 	}
 	
 	public boolean getplayer1Up() {
@@ -81,7 +112,7 @@ class Control {
 	
 	public void joinSuccesfull(Player player){
 		player2 = player;
-		gui.showGameField();
+		gui.showGameField(this);
 	}
 
 	public void startGame(){
@@ -129,7 +160,7 @@ class Control {
 		}
 	}
 		
-	private void startNewSet() {
+	public void startNewSet() {
 		if(player1.getType() == "Server"){
 			player1.setX(30);
 			player1.setY(175);
@@ -149,8 +180,8 @@ class Control {
 	}
 	
 	public void startSet() throws Exception{
-		int player1Score = score.getCurrentScore()[1];
-		int player2Score = score.getCurrentScore()[2];
+		int player1Score = score.getCurrentScorePlayer1();
+		int player2Score = score.getCurrentScorePlayer2();
 		
 		while(player1Score != score.getScore() || player2Score != score.getScore()){
 			if(player1.getType() == "Server"){
@@ -161,15 +192,15 @@ class Control {
 			}
 			if(player1.getType() == "Client"){
 				racketPos(player1.getX(), player1.getY());
-				ball.setX(net.getData()[0]);
-				ball.setY(net.getData()[1]);
-				score.setCurrentScore(net.getData()[3], net.getData()[2]);
+				ball.setX(net.getX());
+				ball.setY(net.getY());
+				score.setCurrentScore(net.getScore1(), net.getScore2());
 				}
 		}
 		if(player1Score == score.getScore() || player2Score == score.getScore()){
 			if(player1.getType()=="Server")
 				saveGame(0, 0);
-			gui.showResult();
+			gui.showResult(this);
 		}
 	}
 	

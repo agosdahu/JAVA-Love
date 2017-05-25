@@ -18,7 +18,7 @@ public class DB {
 			String username = "root";
 			String password = "password";
 			Class.forName(driver);
-			
+
 			Connection conn = DriverManager.getConnection(url, username, password);
 			System.out.println("Connected");
 			return conn;
