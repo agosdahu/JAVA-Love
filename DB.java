@@ -59,7 +59,7 @@ public class DB{
 			
 			PreparedStatement create = con.prepareStatement("CREATE TABLE IF NOT EXISTS result(id int NOT NULL AUTO_INCREMENT, player1Name varchar(255), player2Name varchar(255), player1Score int NOT NULL, player2Score int NOT NULL, PRIMARY KEY(id))");
 			create.executeUpdate();
-			System.out.println("Table create");
+			//System.out.println("Table create");
 			create.close();
 		}catch(Exception e){System.out.println(e);}
 		

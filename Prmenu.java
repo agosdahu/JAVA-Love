@@ -64,7 +64,7 @@ public class Prmenu {
 		btnJoinGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				control.startServer();
+				control.startClient();
 			}
 		});
 		

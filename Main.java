@@ -19,10 +19,10 @@ public class Main {
 		playerC.setType("Client");
 		c.setPlayer1(playerS);
 		c.setPlayer2(playerC);
-		//c.showMenu();	
+		c.showMenu();	
 		//GUI gui = new GUI();
 		//gui.showMenu();
-		c.joinSuccesfull(playerC);
+		//c.joinSuccesfull(playerC);
 		
 		
 	}
