@@ -245,7 +245,10 @@ class Control {
 		
 		//x-direction motion
 		if(ballRight && hitRacket(true)){ //hits the right racket
-			ball.setSpeed(ball.getBendSpeed());
+			if(getplayer1Up() || getplayer1Down()){
+				ball.setSpeed(ball.getBendSpeed());
+			}
+			
 			ball.setX(ball.getX() - ball.getSpeed());
 			ballRight = false;
 		}
@@ -253,8 +256,10 @@ class Control {
 			ball.setX(ball.getX() + ball.getSpeed());
 		}
 		
-		else if(!ballRight && hitRacket(false)){ //hits the left racket
-			ball.setSpeed(ball.getBendSpeed());
+		else if(!ballRight && hitRacket(false)){	//hits the left racket
+			if(getplayer1Up() || getplayer1Down()){
+				ball.setSpeed(ball.getBendSpeed());
+			}
 			ball.setX(ball.getX() + ball.getSpeed());
 			ballRight = true;
 		}

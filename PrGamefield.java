@@ -117,23 +117,39 @@ public class PrGamefield /*extends JPanel*/{
 		 Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 			 @Override
 		        public void eventDispatched(AWTEvent event) {
+				 
+				 	boolean isUp = false;
+				 	boolean isDown = false;
 		            if(event.getID() == KeyEvent.KEY_PRESSED) {
 		                KeyEvent kEvent = (KeyEvent) event;
-		                boolean isUp = (kEvent.getKeyCode() == KeyEvent.VK_UP);
-		                boolean isDown = (kEvent.getKeyCode() == KeyEvent.VK_DOWN);
+		                isUp = (kEvent.getKeyCode() == KeyEvent.VK_UP);
+		                isDown = (kEvent.getKeyCode() == KeyEvent.VK_DOWN);
 		                if(isUp) {
-		                	control.setplayer1Up(true);
-							control.setplayer1Down(false);
-		                }
-		                else if(isDown){
-		                	control.setplayer1Up(false);
-							control.setplayer1Down(true);
-		                }else{
-		                	control.setplayer1Up(false);
-							control.setplayer1Down(false);
-		                }
+				               control.setplayer1Up(true);
+				               control.setplayer1Down(false);
+				             }
+				             else if(isDown){
+				              	control.setplayer1Up(false);
+								control.setplayer1Down(true);
+				             }
 		            }
+		            
+		            if(event.getID() == KeyEvent.KEY_RELEASED) {
+		                KeyEvent kEvent = (KeyEvent) event;
+		                isUp = !(kEvent.getKeyCode() == KeyEvent.VK_UP);
+		                isDown = !(kEvent.getKeyCode() == KeyEvent.VK_DOWN);
+		                if(!isUp) {
+				               control.setplayer1Up(false);
+				             }
+				             else if(!isDown){
+								control.setplayer1Down(false);
+				             }
+				             
+		            }
+		            
+		             
 		        }
+		        
 
 		    }, AWTEvent.KEY_EVENT_MASK);
 		 
