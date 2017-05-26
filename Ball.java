@@ -8,9 +8,9 @@ public class Ball {
 		private int x;
 		private int y;
 		
-		private int speed = 5;	
-		private int normalSpeed = 5;
-		private int bendSpeed = 10;
+		private int speed = 1;	
+		private int normalSpeed = 1;
+		private int bendSpeed = 2;
 
 		public Ball(int x, int y, int s, int normalSpeed, int bendSpeed){
 			this.x = x;

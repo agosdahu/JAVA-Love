@@ -22,8 +22,11 @@ public class Score {
 				score = newScore;
 			}
 			
-			public void setCurrentScore(int scorePlayer1, int scorePlayer2){
+			public void setCurrentScorePlayer1(int scorePlayer1) {
 				this.currentScorePlayer1 = scorePlayer1;
+			}
+			
+			public void setCurrentScorePlayer2(int scorePlayer2) {
 				this.currentScorePlayer2 = scorePlayer2;
 			}
 

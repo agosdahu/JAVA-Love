@@ -62,13 +62,13 @@ public class Pr {
 		JLabel lblName = new JLabel("Name:");
 		
 		txtName = new JTextField();
-		txtName.setText("name");
+		txtName.setText(control.getPlayer1().getName());
 		txtName.setColumns(10);
 		
 		JLabel lblGoal = new JLabel("Goal: ");
 		
 		txtGoal = new JTextField();
-		txtGoal.setText("10");
+		txtGoal.setText(Integer.toString(control.getScore().getScore()));
 		txtGoal.setColumns(10);
 		
 		btnSave = new JButton("Save");
