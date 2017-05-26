@@ -74,6 +74,7 @@ public class PrGamefield /*extends JPanel*/{
 	 */
 	public void initialize(Control control) {
 		frame = new JFrame();
+		frame.setVisible(true);
 		Teglalap t = new Teglalap(control);
 		t.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent e) {
@@ -169,6 +170,7 @@ public class PrGamefield /*extends JPanel*/{
 	    	public void mouseClicked(MouseEvent e) {
 	    		// mentett játék betöltése
 	    		control.loadGame();
+	    		frame.setVisible(false);
 	    	}
 	    });
 	    btnNewButton.addActionListener(new ActionListener() {

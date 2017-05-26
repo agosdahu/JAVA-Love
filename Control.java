@@ -20,7 +20,7 @@ class Control {
 	private boolean ballUp = true;	// true: UP direction, false: DOWN direction
 	private boolean ballRight = false; //true: RIGHT direction, false: LEFT direction
 	
-	private Score score = new Score(5, 0, 0);
+	private Score score = new Score(1, 0, 0);
 
 	
 
@@ -111,10 +111,14 @@ class Control {
 		net.connect(ipAddress, port);
 		player1.setType("Client");
 	}
-	
+	public void newGame(){
+		gui.showGameField(this);
+	}
+		
 	public void joinSuccesfull(Player player){
 		player2 = player;
-		gui.showGameField(this);
+		//gui.showGameField(this);
+		newGame();
 	}
 
 	public void startGame(){
@@ -205,7 +209,7 @@ class Control {
 	
 	public void startSet() throws Exception{
 		//startNewSet();
-		gui.refreshgui(this);
+		//gui.refreshgui(this);
 		
 		while(score.getCurrentScorePlayer1() != score.getScore() && score.getCurrentScorePlayer2() != score.getScore()){
 			TimeUnit.MILLISECONDS.sleep(40);
@@ -215,10 +219,6 @@ class Control {
 				//updateScore();
 				//	net.sendData(ball.getX(), ball.getY(), player1Score, player2Score);	
 				gui.refreshgui(this);	
-				
-				System.out.println(player1Up);
-				System.out.println(player1.getX());
-				System.out.println(player1.getY());
 			}
 			if(player1.getType() == "Client"){
 				racketPos(player1.getX(), player1.getY());
@@ -229,10 +229,10 @@ class Control {
 				}
 		}
 		if(score.getCurrentScorePlayer1() == score.getScore() || score.getCurrentScorePlayer2() == score.getScore()){
-			//if(player1.getType()=="Server")
-				//saveGame(0, 0);
+			if(player1.getType()=="Server")
+				saveGame(0, 0);
 			gui.showResult(this);
-			gui.refreshgui(this);
+
 			
 		}
 	}
