@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-//import javax.swing.JButton;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class GUI extends JFrame{
@@ -14,26 +14,23 @@ public class GUI extends JFrame{
 	 * 600*400 gamefield
 	 */
 	private static final long serialVersionUID = 1L;
-	// private Menu menu;
-	//private JFrame frame;
-	private Control control;
+	//private Control control;
+	PrGamefield prgamefield;
 	private Prmenu prmenu;
 	private Pr pr;
 	private PrIP prip;
 	private PrPort prport;
 	private String ip;
 	private int port;
-	private PrGamefield prgamefield;
-	private PrResult prresult;
 
-	public void showMenu() {
+	public void showMenu(Control control) {
 		// TODO Auto-generated method stub
 		/* frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		
-		control = new Control();
+	//	control = new Control();
 		
 		JButton btnStartGame = new JButton("Start game");
 		btnStartGame.addMouseListener(new MouseAdapter() {
@@ -51,35 +48,31 @@ public class GUI extends JFrame{
 			}
 		});
 		frame.getContentPane().add(btnStartGame, BorderLayout.NORTH);
-		frame.getContentPane().add(btnJoinGame, BorderLayout.SOUTH); */
+		frame.getContentPane().add(btnJoinGame, BorderLayout.SOUTH); 
+		*/
 		
-		control = new Control();
-		prmenu = new Prmenu();
-		prmenu.initialize();
-		
-		
+	//	control = new Control();
+		prmenu = new Prmenu(control);
+	//	prmenu.initialize(control);
 		
 	}
 	
-	public void showOptions() {
+	public void showOptions(Control control) {
 		// TODO Auto-generated method stub
-		pr = new Pr();
-		pr.initialize();
+		pr = new Pr(control);
+	//	pr.initialize(control);
 		//prmenu.frame.setVisible(false); // ez nem azt csinálja, mint amit akartam
 		
 	}
-
-	public void showGameField() {
-		// TODO Auto-generated method stub
-		prgamefield = new PrGamefield();
-		prgamefield.initialize(control.player1, control.player2, control.score, control.ball);
+	public void showGameField(Control control) {
+		prgamefield = new PrGamefield(control);
+		control.startGame();
 		
+
 	}
 
-	public void showResult() {
-		// TODO Auto-generated method stub
-		prresult = new PrResult();
-		prresult.initialize(control.score, control.player1, control.player2);
+	public void showResult(Control control) {
+		new PrResult(control);
 	}
 
 	public String getIPaddress() {
@@ -95,6 +88,10 @@ public class GUI extends JFrame{
 		port = prport.initialize();
 		return port;
 	}
+	
+	 public void refreshgui(Control control) {
+		 prgamefield.frame.repaint();
+		 }
 
 	
 }
