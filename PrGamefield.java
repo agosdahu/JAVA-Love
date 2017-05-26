@@ -1,3 +1,4 @@
+
 package tenisz;
 
 import javax.swing.*;
@@ -9,12 +10,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PrGamefield /*extends JPanel*/{
 
-	private JFrame frame;
+	public JFrame frame;
 	//public Player plyr1 = new Player("mosomaci", 5, 30, 5); 
 	//public Player plyr2 = new Player("vidra", 590, 60, 5); 
 //	private Control control = new Control();
@@ -68,6 +71,11 @@ public class PrGamefield /*extends JPanel*/{
 	public void initialize(Control control) {
 		frame = new JFrame();
 		Teglalap t = new Teglalap(control);
+		t.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent e) {
+				frame.repaint();
+			}
+			});
 		t.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -124,11 +132,26 @@ public class PrGamefield /*extends JPanel*/{
 	    
 	    JLabel lblNewLabel = new JLabel(control.getPlayer1().getName());
 	    
-	    JLabel lblNewLabel_1 = new JLabel(control.getPlayer1().getName());
+	    JLabel lblNewLabel_1 = new JLabel(control.getPlayer2().getName());
 	    
 	    JLabel lblNewLabel_2 = new JLabel("" + control.getScore().getCurrentScorePlayer1());
+	    lblNewLabel_2.setText("" + control.getScore().getCurrentScorePlayer1());
+	    lblNewLabel_2.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent e) {
+				frame.repaint();
+			}
+			});
+
 	    
 	    JLabel lblNewLabel_3 = new JLabel("" + control.getScore().getCurrentScorePlayer2());
+	    lblNewLabel_3.setText("" + control.getScore().getCurrentScorePlayer2());
+	    
+	    lblNewLabel_3.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent e) {
+				frame.repaint();
+			}
+			});
+	    
 	    GroupLayout gl_t = new GroupLayout(t);
 	    gl_t.setHorizontalGroup(
 	    	gl_t.createParallelGroup(Alignment.LEADING)
@@ -165,7 +188,7 @@ public class PrGamefield /*extends JPanel*/{
 		frame.setBounds(100, 100, 630, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-
+		frame.repaint();
 		
 		
 	}

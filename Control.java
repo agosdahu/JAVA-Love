@@ -1,5 +1,7 @@
 package tenisz;
 
+import java.util.concurrent.TimeUnit;
+
 class Control {
 	
 	private GUI gui = new GUI();
@@ -16,7 +18,7 @@ class Control {
 	
 	private Ball ball = new Ball(0, 0, 5, 5, 10);
 	private boolean ballUp = true;	// true: UP direction, false: DOWN direction
-	private boolean ballRight = true; //true: RIGHT direction, false: LEFT direction
+	private boolean ballRight = false; //true: RIGHT direction, false: LEFT direction
 	
 	private Score score = new Score(5, 0, 0);
 
@@ -117,8 +119,16 @@ class Control {
 
 	public void startGame(){
 		score.setScore(score.getScore());
-		score.setCurrentScore(0, 0);
-		startNewSet();
+		score.setCurrentScorePlayer1(0);
+		score.setCurrentScorePlayer2(0);
+		try {
+			startSet();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
 	}
 	
 
@@ -136,9 +146,11 @@ class Control {
 		else{
 			try {
 				if(compare <=0){
-					score.setCurrentScore(db.getPlayer1Score(record), db.getPlayer2Score(record));
+					score.setCurrentScorePlayer1(db.getPlayer1Score(record));
+					score.setCurrentScorePlayer2(db.getPlayer2Score(record));
 				}else{
-					score.setCurrentScore(db.getPlayer2Score(record), db.getPlayer1Score(record));
+					score.setCurrentScorePlayer1(db.getPlayer2Score(record));
+					score.setCurrentScorePlayer2(db.getPlayer1Score(record));
 				}
 				
 			} catch (Exception e) {
@@ -146,7 +158,12 @@ class Control {
 				e.printStackTrace();
 			}
 			score.setScore(score.getScore());
-			startNewSet();
+			try {
+				startSet();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -162,45 +179,53 @@ class Control {
 		
 	public void startNewSet() {
 		if(player1.getType() == "Server"){
-			player1.setX(30);
+			player1.setX(0);
 			player1.setY(175);
-			player2.setX(550);
+			player2.setX(600);
 			player2.setY(175);
 		}
 		else{
-			player1.setX(550);
+			player1.setX(600);
 			player1.setY(175);
-			player2.setX(30);
+			player2.setX(0);
 			player2.setY(175);
 		}
 					
 		ball.setX(300);
 		ball.setY(175);
 		ball.setSpeed(ball.getNormalSpeed());
+				
 	}
 	
 	public void startSet() throws Exception{
+		startNewSet();
+		gui.refreshgui(this);
+
 		int player1Score = score.getCurrentScorePlayer1();
 		int player2Score = score.getCurrentScorePlayer2();
 		
 		while(player1Score != score.getScore() || player2Score != score.getScore()){
+			TimeUnit.MILLISECONDS.sleep(40);
 			if(player1.getType() == "Server"){
 				ballPos(ball.getX(), ball.getY());
 				racketPos(player1.getX(), player1.getY());
-				updateScore(player1Score, player2Score);
-				net.sendData(ball.getX(), ball.getY(), player1Score, player2Score);
+				updateScore();
+				//	net.sendData(ball.getX(), ball.getY(), player1Score, player2Score);	
+				gui.refreshgui(this);			
 			}
 			if(player1.getType() == "Client"){
 				racketPos(player1.getX(), player1.getY());
-				ball.setX(net.getX());
-				ball.setY(net.getY());
-				score.setCurrentScore(net.getScore1(), net.getScore2());
+		//		ball.setX(net.getX());
+		//		ball.setY(net.getY());
+		//		score.setCurrentScore(net.getScore1(), net.getScore2());
+				gui.refreshgui(this);
 				}
 		}
 		if(player1Score == score.getScore() || player2Score == score.getScore()){
 			if(player1.getType()=="Server")
 				saveGame(0, 0);
 			gui.showResult(this);
+			
 		}
 	}
 	
@@ -230,36 +255,21 @@ class Control {
 		}
 						
 		//y-direction motion
-		if(ballUp && !hitWall(true)){ //if moving up and not at max
+		if(ballUp && ball.getY() > 0){ //if moving up and not at max
 			ball.setY(ball.getY() - ball.getSpeed());
 		}
-		else if(ballUp && hitWall(true)){ //if moving up, but at max
+		else if(ballUp && ball.getY() <= 0){ //if moving up, but at max
 			ball.setSpeed(ball.getNormalSpeed());
 			ball.setY(ball.getY() + ball.getSpeed());
 			ballUp = false;
 		}
-		else if(!ballUp && !hitWall(false)){ //if moving down, but not at max
+		else if(!ballUp && ball.getY() < (400 - ball.getHeight())){ //if moving down, but not at max
 			ball.setY(ball.getY() + ball.getSpeed());
 		}
-		else if(!ballUp && hitWall(false)){ //if moving down, but at max
+		else if(!ballUp && ball.getY() >= (400 - ball.getHeight())){ //if moving down, but at max
 			ball.setSpeed(ball.getNormalSpeed());
 			ball.setY(ball.getY() - ball.getSpeed());
 			ballUp = true;
-		}
-	}
-	
-	private boolean hitWall(boolean up){
-		if(up){
-			if(ball.getY() <= 0)
-				return true;
-			else 
-				return false;
-		}
-		else{
-			if(ball.getY() + ball.getHeight() >= gui.getHeight())
-				return true;
-			else
-				return false;
 		}
 	}
 	
@@ -289,24 +299,41 @@ class Control {
 			player1.setY(player1.getY() - player1.getSpeed());
 		else 
 			player1.setY(player1.getY());
-		net.sendRacketPos(player1.getY());
-		player2.setY(net.getRacketPos());
+	//	net.sendRacketPos(player1.getY());
+	//	player2.setY(net.getRacketPos());
 	}
 	
-	private void updateScore(int player1Score, int player2Score) {
+	private void updateScore() {
 			if(isGoal()){
-				if(ball.getX() < 100)
-					score.setCurrentScore(player1Score++, player2Score);
-				else
-					score.setCurrentScore(player1Score, player2Score++);
+				if(ball.getX() < 100){
+					score.setCurrentScorePlayer1((score.getCurrentScorePlayer1() + 1));
+				}
+				else{
+					score.setCurrentScorePlayer2((score.getCurrentScorePlayer2() + 1));
+				}
+					
 			}
 	}
 
 	private boolean isGoal() {
-		if((ball.getX() < player1.getX()) || (ball.getX() > player2.getX()))
-			return true;
+		if(player1.getType() == "Server"){
+			if((ball.getX() < player1.getX()) || (ball.getX() > player2.getX())){
+			//	updateScore();
+				return true;
+			}
+		}
 		else
 			return false;
+		if(player1.getType() == "Client"){
+			if((ball.getX() < player2.getX()) || (ball.getX() > player1.getX())){
+			//	updateScore();
+				return true;
+			}
+		}
+		else
+			return false;
+		return false;
+		
 	}
 	
 	

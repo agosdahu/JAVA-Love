@@ -48,7 +48,7 @@ public class Player {
 		}
 		
 		public void setX(int newX){
-			pos_y = newX;
+			pos_x = newX;
 		}
 		
 		public void setY(int newY){

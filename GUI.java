@@ -15,6 +15,7 @@ public class GUI extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	//private Control control;
+	PrGamefield prgamefield;
 	private Prmenu prmenu;
 	private Pr pr;
 	private PrIP prip;
@@ -64,8 +65,10 @@ public class GUI extends JFrame{
 		
 	}
 	public void showGameField(Control control) {
-		new PrGamefield(control);
+		prgamefield = new PrGamefield(control);
+		control.startGame();
 		
+
 	}
 
 	public void showResult(Control control) {
@@ -85,6 +88,10 @@ public class GUI extends JFrame{
 		port = prport.initialize();
 		return port;
 	}
+	
+	 public void refreshgui(Control control) {
+		 prgamefield.frame.repaint();
+		 }
 
 	
 }

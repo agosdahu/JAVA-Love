@@ -2,14 +2,13 @@ package tenisz;
 
 public class Uto /*extends JPanel*/{
 	
-	Player player;
-	int posx;
-	int posy;
+	//public Player player;
+	public int posx;
+	public int posy;
 	
 	public Uto(Player player){
-		this.player = player;
-		this.posx = this.player.getX() + 5;
-		this.posy = this.player.getY() + 100;
+		this.posx = player.getX() + 5;
+		this.posy = player.getY() + 100;
 		//repaint();
 	}
 	
