@@ -45,6 +45,7 @@ public class PrResult {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @wbp.parser.entryPoint
 	 */
 	public void initialize(Control control) {
 		frame = new JFrame();
@@ -77,20 +78,6 @@ public class PrResult {
 				
 			}
 		});
-		
-		JButton btnNewButton = new JButton("New game");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frame.setVisible(false);
-				control.newGame();
-				
-			}
-		});
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -99,13 +86,11 @@ public class PrResult {
 					.addComponent(lblTheWinnerIs)
 					.addGap(56)
 					.addComponent(lblNewLabel)
-					.addContainerGap(98, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(50)
+					.addContainerGap(194, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap(281, Short.MAX_VALUE)
 					.addComponent(btnBackToMenu)
-					.addPreferredGap(ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
-					.addComponent(btnNewButton)
-					.addGap(64))
+					.addGap(42))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -114,11 +99,9 @@ public class PrResult {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTheWinnerIs)
 						.addComponent(lblNewLabel))
-					.addPreferredGap(ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnBackToMenu)
-						.addComponent(btnNewButton))
-					.addGap(25))
+					.addGap(92)
+					.addComponent(btnBackToMenu)
+					.addContainerGap(44, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 

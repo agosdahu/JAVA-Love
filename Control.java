@@ -20,7 +20,7 @@ class Control {
 	private boolean ballUp = true;	// true: UP direction, false: DOWN direction
 	private boolean ballRight = false; //true: RIGHT direction, false: LEFT direction
 	
-	private Score score = new Score(1, 0, 0);
+	private Score score = new Score(3, 0, 0);
 
 	
 
@@ -227,11 +227,13 @@ class Control {
 		//		score.setCurrentScore(net.getScore1(), net.getScore2());
 				gui.refreshgui(this);
 				}
+			if(score.getCurrentScorePlayer1() == score.getScore() || score.getCurrentScorePlayer2() == score.getScore()){
+				if(player1.getType()=="Server")
+					saveGame(0, 0);
+				gui.showResult(this);
+				break;
 		}
-		if(score.getCurrentScorePlayer1() == score.getScore() || score.getCurrentScorePlayer2() == score.getScore()){
-			if(player1.getType()=="Server")
-				saveGame(0, 0);
-			gui.showResult(this);
+		
 
 			
 		}

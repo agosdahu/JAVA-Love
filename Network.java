@@ -1,9 +1,19 @@
 package tenisz;
 
+import java.net.InetAddress;
+
+import tenisz.Control;
+
 public abstract class Network {
 	
+	protected Control ctrl;
+	
+	Network(Control c) {
+		ctrl = c;
+	}
+	
 
-	abstract void connect(String ipAddress, int port);
+	abstract void connect(String ip, int port);
 	abstract void disconnect();
 	
 	public void sendRacketPos(int y) {
@@ -37,10 +47,4 @@ public abstract class Network {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	
-
-
-
-
 }
