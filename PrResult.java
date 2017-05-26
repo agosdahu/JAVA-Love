@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
 
 public class PrResult {
 
-	private JFrame frame;
+	public JFrame frame;
 //	private Control control = new Control();
 	private String winner;
 
@@ -50,6 +50,8 @@ public class PrResult {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.getContentPane().setLayout(null);
+		frame.setVisible(true);
 		
 		JLabel lblTheWinnerIs = new JLabel("The winner is: ");
 		lblTheWinnerIs.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -70,7 +72,9 @@ public class PrResult {
 		btnBackToMenu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				frame.setVisible(false);
 				control.showMenu();
+				
 			}
 		});
 		
@@ -78,7 +82,9 @@ public class PrResult {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				control.startGame();
+				frame.setVisible(false);
+				control.newGame();
+				
 			}
 		});
 		btnNewButton.addActionListener(new ActionListener() {
@@ -115,6 +121,9 @@ public class PrResult {
 					.addGap(25))
 		);
 		frame.getContentPane().setLayout(groupLayout);
+
 	}
+
+	
 
 }

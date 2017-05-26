@@ -66,6 +66,8 @@ public class GUI extends JFrame{
 		
 	}
 	public void showGameField(Control control) {
+		if(prmenu.frame.isVisible())
+			prmenu.frame.setVisible(false);
 		prgamefield = new PrGamefield(control);
 		prgamefield.initialize(control);
 		control.startGame();
@@ -74,8 +76,10 @@ public class GUI extends JFrame{
 	}
 
 	public void showResult(Control control) {
+		prgamefield.frame.setVisible(false);
 		prResult = new PrResult(control);
 		prResult.initialize(control);
+
 	}
 
 	public String getIPaddress() {
