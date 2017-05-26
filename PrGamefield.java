@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
+import java.awt.AWTEvent;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -77,6 +80,8 @@ public class PrGamefield /*extends JPanel*/{
 				frame.repaint();
 			}
 			});
+		
+		/*
 		t.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent evt) {
@@ -106,6 +111,33 @@ public class PrGamefield /*extends JPanel*/{
 				
 			}
 		});
+		
+		*/
+		
+		 Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+			 @Override
+		        public void eventDispatched(AWTEvent event) {
+		            if(event.getID() == KeyEvent.KEY_PRESSED) {
+		                KeyEvent kEvent = (KeyEvent) event;
+		                boolean isUp = (kEvent.getKeyCode() == KeyEvent.VK_UP);
+		                boolean isDown = (kEvent.getKeyCode() == KeyEvent.VK_DOWN);
+		                if(isUp) {
+		                	control.setplayer1Up(true);
+							control.setplayer1Down(false);
+		                }
+		                else if(isDown){
+		                	control.setplayer1Up(false);
+							control.setplayer1Down(true);
+		                }else{
+		                	control.setplayer1Up(false);
+							control.setplayer1Down(false);
+		                }
+		            }
+		        }
+
+		    }, AWTEvent.KEY_EVENT_MASK);
+		 
+		 
 	    //frame.getContentPane().add(t, BorderLayout.NORTH);
 		frame.getContentPane().add(t);
 	    //Uto u1 = new Uto(plyr);
