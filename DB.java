@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class DB {
+public class DB{
 
 	public DB (){
 		
@@ -210,6 +210,8 @@ public class DB {
 		
 		return score;
 	}
+
+
 
 	
 	

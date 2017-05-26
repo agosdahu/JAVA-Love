@@ -15,7 +15,8 @@ public class GUI extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	//private Control control;
-	PrGamefield prgamefield;
+	private PrGamefield prgamefield;
+	private PrResult prResult;
 	private Prmenu prmenu;
 	private Pr pr;
 	private PrIP prip;
@@ -66,13 +67,15 @@ public class GUI extends JFrame{
 	}
 	public void showGameField(Control control) {
 		prgamefield = new PrGamefield(control);
+		prgamefield.initialize(control);
 		control.startGame();
 		
 
 	}
 
 	public void showResult(Control control) {
-		new PrResult(control);
+		prResult = new PrResult(control);
+		prResult.initialize(control);
 	}
 
 	public String getIPaddress() {
@@ -91,6 +94,9 @@ public class GUI extends JFrame{
 	
 	 public void refreshgui(Control control) {
 		 prgamefield.frame.repaint();
+		 prgamefield.labels(control);
+		 //prgamefield.lblNewLabel_2.repaint();
+		 //prgamefield.lblNewLabel_3.repaint();
 		 }
 
 	

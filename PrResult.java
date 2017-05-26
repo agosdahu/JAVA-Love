@@ -40,7 +40,7 @@ public class PrResult {
 	 * Create the application.
 	 */
 	public PrResult(Control control) {
-		initialize(control);
+		//initialize(control);
 	}
 
 	/**
