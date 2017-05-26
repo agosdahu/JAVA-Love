@@ -1,4 +1,3 @@
-
 package tenisz;
 
 import javax.swing.*;
@@ -18,6 +17,8 @@ import java.awt.event.KeyEvent;
 public class PrGamefield /*extends JPanel*/{
 
 	public JFrame frame;
+	public JLabel lblNewLabel_2;
+	public JLabel lblNewLabel_3;
 	//public Player plyr1 = new Player("mosomaci", 5, 30, 5); 
 	//public Player plyr2 = new Player("vidra", 590, 60, 5); 
 //	private Control control = new Control();
@@ -52,7 +53,7 @@ public class PrGamefield /*extends JPanel*/{
 	 * Create the application.
 	 */
 	public PrGamefield(Control control) {
-		initialize(control);
+		//initialize(control);
 	//	this.score = score; 
 	
 	}
@@ -78,24 +79,30 @@ public class PrGamefield /*extends JPanel*/{
 			});
 		t.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode()==38)
-			    {
-			            //Up arrow key code
+			public void keyPressed(KeyEvent evt) {
+				// TODO Auto-generated method stub
+				if(evt.getKeyCode() == 38){ //if player 1 is moving up
 					control.setplayer1Up(true);
 					control.setplayer1Down(false);
-			    }
-			    else if (e.getKeyCode()==40)
-			    {
-			            //down arrow key code
-			    	control.setplayer1Down(true);
-			    	control.setplayer1Up(false);
-			    }
-			    else {
-			    	control.setplayer1Up(false);
-			    	control.setplayer1Down(false);
-			    }
+				}
+				else if(evt.getKeyCode() == 40){ //if player 1 is moving down
+					control.setplayer1Up(false);
+					control.setplayer1Down(true);
+				}
+				
+			}
 
+			@Override
+			public void keyReleased(KeyEvent evt) {
+				// TODO Auto-generated method stub
+				if(evt.getKeyCode() == 38){ //if player 1 stops moving up
+					control.setplayer1Up(false);
+					control.setplayer1Down(false);
+				}
+				else if(evt.getKeyCode() == 40){
+					control.setplayer1Up(false);
+					control.setplayer1Down(false);
+				}
 				
 			}
 		});
@@ -134,21 +141,26 @@ public class PrGamefield /*extends JPanel*/{
 	    
 	    JLabel lblNewLabel_1 = new JLabel(control.getPlayer2().getName());
 	    
-	    JLabel lblNewLabel_2 = new JLabel("" + control.getScore().getCurrentScorePlayer1());
-	    lblNewLabel_2.setText("" + control.getScore().getCurrentScorePlayer1());
+	    /*JLabel*/ lblNewLabel_2 = new JLabel("" + control.getScore().getCurrentScorePlayer1());
+	  
+	    
+	    lblNewLabel_2.setText("" + control.getScore().getCurrentScorePlayer1());     
+   
+	    
 	    lblNewLabel_2.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent e) {
-				frame.repaint();
+				lblNewLabel_2.repaint();
 			}
 			});
 
 	    
-	    JLabel lblNewLabel_3 = new JLabel("" + control.getScore().getCurrentScorePlayer2());
+	    /*JLabel*/ lblNewLabel_3 = new JLabel("" + control.getScore().getCurrentScorePlayer2());
 	    lblNewLabel_3.setText("" + control.getScore().getCurrentScorePlayer2());
+	   
 	    
 	    lblNewLabel_3.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent e) {
-				frame.repaint();
+				lblNewLabel_3.repaint();
 			}
 			});
 	    
@@ -190,6 +202,12 @@ public class PrGamefield /*extends JPanel*/{
 		frame.setVisible(true);
 		frame.repaint();
 		
+		
+	}
+	
+	public void labels(Control control){
+		lblNewLabel_2.setText("" + control.getScore().getCurrentScorePlayer1());
+		lblNewLabel_3.setText("" + control.getScore().getCurrentScorePlayer2());
 		
 	}
 	
