@@ -18,6 +18,8 @@ import java.awt.event.KeyEvent;
 public class PrGamefield /*extends JPanel*/{
 
 	public JFrame frame;
+	public JLabel lblNewLabel_2;
+	public JLabel lblNewLabel_3;
 	//public Player plyr1 = new Player("mosomaci", 5, 30, 5); 
 	//public Player plyr2 = new Player("vidra", 590, 60, 5); 
 //	private Control control = new Control();
@@ -134,21 +136,26 @@ public class PrGamefield /*extends JPanel*/{
 	    
 	    JLabel lblNewLabel_1 = new JLabel(control.getPlayer2().getName());
 	    
-	    JLabel lblNewLabel_2 = new JLabel("" + control.getScore().getCurrentScorePlayer1());
-	    lblNewLabel_2.setText("" + control.getScore().getCurrentScorePlayer1());
+	    /*JLabel*/ lblNewLabel_2 = new JLabel("" + control.getScore().getCurrentScorePlayer1());
+	  
+	    
+	    lblNewLabel_2.setText("" + control.getScore().getCurrentScorePlayer1());     
+   
+	    
 	    lblNewLabel_2.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent e) {
-				frame.repaint();
+				lblNewLabel_2.repaint();
 			}
 			});
 
 	    
-	    JLabel lblNewLabel_3 = new JLabel("" + control.getScore().getCurrentScorePlayer2());
+	    /*JLabel*/ lblNewLabel_3 = new JLabel("" + control.getScore().getCurrentScorePlayer2());
 	    lblNewLabel_3.setText("" + control.getScore().getCurrentScorePlayer2());
+	   
 	    
 	    lblNewLabel_3.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent e) {
-				frame.repaint();
+				lblNewLabel_3.repaint();
 			}
 			});
 	    
@@ -190,6 +197,12 @@ public class PrGamefield /*extends JPanel*/{
 		frame.setVisible(true);
 		frame.repaint();
 		
+		
+	}
+	
+	public void labels(Control control){
+		lblNewLabel_2.setText("" + control.getScore().getCurrentScorePlayer1());
+		lblNewLabel_3.setText("" + control.getScore().getCurrentScorePlayer2());
 		
 	}
 	

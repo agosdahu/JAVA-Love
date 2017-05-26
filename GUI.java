@@ -91,6 +91,9 @@ public class GUI extends JFrame{
 	
 	 public void refreshgui(Control control) {
 		 prgamefield.frame.repaint();
+		 prgamefield.labels(control);
+		 //prgamefield.lblNewLabel_2.repaint();
+		 //prgamefield.lblNewLabel_3.repaint();
 		 }
 
 	
