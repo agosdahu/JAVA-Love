@@ -16,8 +16,8 @@ import java.awt.event.MouseEvent;
 
 public class PrResult {
 
-	private JFrame frame;
-	private Control control = new Control();
+	public JFrame frame;
+//	private Control control = new Control();
 	private String winner;
 
 	/**
@@ -39,27 +39,30 @@ public class PrResult {
 	/**
 	 * Create the application.
 	 */
-	public PrResult() {
-		initialize(control.score, control.player1, control.player2);
+	public PrResult(Control control) {
+		//initialize(control);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @wbp.parser.entryPoint
 	 */
-	public void initialize(Score score, Player player1, Player player2) {
+	public void initialize(Control control) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.getContentPane().setLayout(null);
+		frame.setVisible(true);
 		
 		JLabel lblTheWinnerIs = new JLabel("The winner is: ");
 		lblTheWinnerIs.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
 		
-		if (score.getCurrentScore()[0] == score.getScore()) {
-			winner = player1.name;
+		if (control.getScore().getCurrentScorePlayer1() == control.getScore().getScore()) {
+			winner = control.getPlayer1().getName();
 		}
-		else if (score.getCurrentScore()[1] == score.getScore()){
-			winner = player2.name;
+		else if (control.getScore().getCurrentScorePlayer2() == control.getScore().getScore()){
+			winner = control.getPlayer2().getName();
 		}
 			
 		
@@ -70,19 +73,9 @@ public class PrResult {
 		btnBackToMenu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				frame.setVisible(false);
 				control.showMenu();
-			}
-		});
-		
-		JButton btnNewButton = new JButton("New game");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				control.startGame();
-			}
-		});
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
@@ -93,13 +86,11 @@ public class PrResult {
 					.addComponent(lblTheWinnerIs)
 					.addGap(56)
 					.addComponent(lblNewLabel)
-					.addContainerGap(98, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(50)
+					.addContainerGap(194, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap(281, Short.MAX_VALUE)
 					.addComponent(btnBackToMenu)
-					.addPreferredGap(ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
-					.addComponent(btnNewButton)
-					.addGap(64))
+					.addGap(42))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -108,13 +99,14 @@ public class PrResult {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTheWinnerIs)
 						.addComponent(lblNewLabel))
-					.addPreferredGap(ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnBackToMenu)
-						.addComponent(btnNewButton))
-					.addGap(25))
+					.addGap(92)
+					.addComponent(btnBackToMenu)
+					.addContainerGap(44, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
+
 	}
+
+	
 
 }
