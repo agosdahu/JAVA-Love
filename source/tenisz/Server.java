@@ -72,7 +72,7 @@ public class Server extends Network {
 		
 		disconnect();
 		try {
-			serverSocket = new ServerSocket(6003);
+			serverSocket = new ServerSocket(10007);
 
 			Thread rec = new Thread(new ReceiverThread());
 			rec.start();

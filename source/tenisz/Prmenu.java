@@ -73,6 +73,7 @@ public class Prmenu {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				gui.showOptions(control);
+				frame.setVisible(false);
 			}
 		});
 		

@@ -26,7 +26,7 @@ public class Client extends Network {
 			System.out.println("Waiting for DATA");
 			try {
 				while (true) {
-						mySocket = (MySocket) in.readObject(); //itt van vmi wait, tehát nem pörgessük szarrá a procit ;)
+						mySocket = (MySocket) in.readObject();
 						System.out.println("Szervertõl elvettem az adatot");
 					}
 			} catch (Exception ex) {
@@ -42,12 +42,16 @@ public class Client extends Network {
 	void connect (String host) {
 		disconnect();
 		try {
-			socket = new Socket(host, 6003);
-			out = new ObjectOutputStream(socket.getOutputStream());
+			socket = new Socket(host, 10007);
+			System.out.println("Socket inic");
 			in = new ObjectInputStream(socket.getInputStream());
+			System.out.println("in stream");
+			out = new ObjectOutputStream(socket.getOutputStream());
+			System.out.println("out stream");
 			out.flush();
-						
+			System.out.println("flush a szálelõtt");			
 			Thread rec = new Thread(new ReceiverThread());
+			System.out.println("Inic a szál");
 			rec.start();										// itt indul a szál!
 			System.out.println("Elindult a szál");
 			mySocket.playerC = ctrl.getPlayer1();
@@ -59,6 +63,7 @@ public class Client extends Network {
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host");
 		} catch (IOException e) {
+			System.err.println(e.getStackTrace());
 			System.err.println("Couldn't get I/O for the connection. ");
 			JOptionPane.showMessageDialog(null, "Cannot connect to server!");
 		}
