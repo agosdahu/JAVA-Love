@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
-import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

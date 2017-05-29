@@ -1,11 +1,6 @@
 package tenisz;
 
 
-import java.awt.BorderLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class GUI extends JFrame{
@@ -66,10 +61,10 @@ public class GUI extends JFrame{
 		
 	}
 	public void showGameField(Control control) {
-		if(prmenu.frame.isVisible())
-			prmenu.frame.setVisible(false);
+		prmenu.frame.setVisible(false);
 		prgamefield = new PrGamefield(control);
-		prgamefield.initialize(control);
+		//prgamefield.initialize(control);
+		prgamefield.frame.setVisible(true);
 		control.startGame();
 		
 

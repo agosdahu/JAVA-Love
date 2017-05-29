@@ -7,11 +7,12 @@ class Control {
 	private GUI gui = new GUI();
 	private Network net = null;
 	private DB db = new DB();
-	private Player player1 = new Player("Player", 0, 0, 5);
+	
+	private Player player1 = new Player("Player1", 0, 0, 5);
 	private boolean player1Up = false;
 	private boolean player1Down = false;
 	
-	private Player player2 = new Player("Player", 0, 0, 5);
+	private Player player2 = new Player("Player2", 0, 0, 5);
 	private boolean player2Up = false;
 	private boolean player2Down = false;
 	
@@ -20,7 +21,7 @@ class Control {
 	private boolean ballRight = false; //true: RIGHT direction, false: LEFT direction
 	
 	private Score score = new Score(300, 0, 0);
-
+	
 	
 
 	public Control() {
@@ -95,23 +96,24 @@ class Control {
 		if(net != null)
 			net.disconnect();
 		net = new Server(this);
-//		net.connect("localhost");
+		net.connect("localhost");
 		player1.setType("Server");
+
 	}
 	
 		public void startClient(){
 		if (net != null)
 			net.disconnect();
 		net = new Client(this);
-	//	net.connect("localhost");
+		net.connect("localhost");
 		player1.setType("Client");
+
 	}
 	public void newGame(){
 		gui.showGameField(this);
 	}
 		
-	public void joinSuccesfull(Player player){
-		player2 = player;
+	public void joinSuccesfull(){
 		//gui.showGameField(this);
 		newGame();
 	}
@@ -205,29 +207,41 @@ class Control {
 	public void startSet() throws Exception{
 		//startNewSet();								/*!!!!!!*/
 		gui.refreshgui(this);						/*!!!!!!*/
-		Data dataFromClient = new Data();
-		Data dataFromServer = new Data();
+
 		
 		while(score.getCurrentScorePlayer1() != score.getScore() && score.getCurrentScorePlayer2() != score.getScore()){
 			TimeUnit.MILLISECONDS.sleep(40);
 			if(player1.getType() == "Server"){
-				net.sendDataToClient(ball, player1, score);	
-				dataFromClient = net.getDataFromClient();
-				player2Up = dataFromClient.playerUp;
-				player2Down = dataFromClient.playerDown;
+				DataFromServer temp = new DataFromServer(getPlayer1().getY(), getBall().getX(), getBall().getY(), getScore().getCurrentScorePlayer1(), getScore().getCurrentScorePlayer2());
+				net.sendToClient(temp);	
+				
+				DataFromClient receivedData = net.getReceivedDataFromClient();
+				
+				System.out.println(receivedData);
+				
+				player2Up = receivedData.player1Up;
+				player2Down = receivedData.player1Down;
 				ballPos(ball.getX(), ball.getY());
-				racketPos(player1.getY(), dataFromClient.player.getY());
+				racketPos(player1.getY(), 200);
 				updateScore();
 
 				gui.refreshgui(this);	
 			}
 			if(player1.getType() == "Client"){
-				net.sendDataToServer(player1, getplayer1Up(), getplayer1Down());
-				dataFromServer = net.getDataFromServer();
-				ball.setX(dataFromServer.ball.getX());
-				ball.setY(dataFromServer.ball.getY());
-				racketPos(player1.getY(), dataFromServer.player.getY());								/*!!!!!!*/
-				score.setCurrentScore(dataFromServer.score.getCurrentScorePlayer2(), dataFromServer.score.getCurrentScorePlayer1());
+				DataFromClient temp = new DataFromClient(getPlayer1().getY(), getplayer1Up(), getplayer1Down());
+				net.sendToServer(temp);	
+				DataFromServer receivedData = net.getReceivedDataFromServer();
+				
+				System.out.println(receivedData.ballPosX);
+				System.out.println(receivedData.ballPosY);
+				System.out.println(receivedData.posY);
+				System.out.println(receivedData.player1Score);
+				System.out.println(receivedData.player2Score);
+				
+				ball.setX(receivedData.ballPosX);
+				ball.setY(receivedData.ballPosY);
+				racketPos(player1.getY(), receivedData.posY);
+				score.setCurrentScore(receivedData.player1Score, receivedData.player1Score);
 				gui.refreshgui(this);
 				
 				}

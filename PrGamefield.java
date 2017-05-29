@@ -14,7 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PrGamefield /*extends JPanel*/{
@@ -56,7 +55,7 @@ public class PrGamefield /*extends JPanel*/{
 	 * Create the application.
 	 */
 	public PrGamefield(Control control) {
-		//initialize(control);
+		initialize(control);
 	//	this.score = score; 
 	
 	}

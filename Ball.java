@@ -1,7 +1,14 @@
 package tenisz;
 
-public class Ball {
+import java.io.Serializable;
 
+public class Ball implements Serializable{
+
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 		private final int WIDTH = 10;
 		private final int HEIGHT = 10;
 
