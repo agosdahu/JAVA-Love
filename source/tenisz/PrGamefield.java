@@ -19,10 +19,6 @@ import java.awt.event.KeyEvent;
 
 public class PrGamefield /*extends JPanel*/{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	public JFrame frame;
 	public JLabel lblNewLabel_2;
 	public JLabel lblNewLabel_3;
@@ -161,7 +157,7 @@ public class PrGamefield /*extends JPanel*/{
 		 
 	    //frame.getContentPane().add(t, BorderLayout.NORTH);
 		frame.getContentPane().add(t);
-	    //Uto u1 = new Uto(plyr);
+		//Uto u1 = new Uto(plyr);
 	    //frame.getContentPane().add(u1);
 	    //frame.add(u1);
 	    //frame.getContentPane().add(u1);

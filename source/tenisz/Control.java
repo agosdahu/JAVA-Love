@@ -4,10 +4,6 @@ import java.util.concurrent.TimeUnit;
 
 class Control {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GUI gui = new GUI();
 	private Network net = null;
 	private DB db = new DB();
@@ -114,20 +110,26 @@ class Control {
 	
 	public void startServer() {
 		if (net != null) net.disconnect();
+		player1.setType("Server");
+		player2.setType("Client");
+		System.out.println(player1.getType());
+		System.out.println(player2.getType());
+		
 		net = new Server(this);
 		net.connect("localhost");
 				
-		player1.setType("Server");
-		player2.setType("Client");
 	}
 	
 		public void startClient() {
 		if (net != null) net.disconnect();
+		player1.setType("Client");
+		player2.setType("Server");
+		System.out.println(player1.getType());
+		System.out.println(player2.getType());
+
 		net = new Client(this);
 		net.connect("localhost");
 		
-		player1.setType("Client");
-		player2.setType("Server");
 	}
 	public void newGame(){
 		gui.showGameField(this);
@@ -217,7 +219,7 @@ class Control {
 		ball.setX(300);
 		ball.setY(175);
 		ball.setSpeed(ball.getNormalSpeed());
-		
+				
 		try {
 			startSet();
 		} catch (Exception e) {
@@ -228,35 +230,41 @@ class Control {
 	
 	public void startSet() throws Exception{
 		//startNewSet();								/*!!!!!!*/
-		gui.refreshgui(this);						/*!!!!!!*/
+		gui.refreshgui(this);
+		System.out.println("GUI is refreshed");
+				/*!!!!!!*/
 		
 		while(score.getCurrentScorePlayer1() != score.getScore() && score.getCurrentScorePlayer2() != score.getScore()){
 			TimeUnit.MILLISECONDS.sleep(40);
+			System.out.println("after sleep");
+			System.out.println(player1.getType());
 			if(player1.getType() == "Server"){
-								
+				System.out.println("before UP");				
 				net.updateGame();
+				System.out.println("after UP");
 				ballPos(ball.getX(), ball.getY());
 				racketPos(player1.getY(), 200);
 				updateScore();																/*!!!!!!*/
 				
-				gui.refreshgui(this);	
+				gui.refreshgui(this); System.out.println("GUI is refreshed");	
 			}
 			if(player1.getType() == "Client"){
 												
 				racketPos(player1.getX(), player1.getY());
+				System.out.println("before UP");				
 				net.updateGame();
+				System.out.println("after UP");
 				
-				gui.refreshgui(this);
+				gui.refreshgui(this); System.out.println("GUI is refreshed");
 				}
+			
+			
 			if(score.getCurrentScorePlayer1() == score.getScore() || score.getCurrentScorePlayer2() == score.getScore()){
-				if(player1.getType()=="Server")
-					saveGame(0, 0);
+				//if(player1.getType()=="Server")
+					//saveGame(0, 0);
 				gui.showResult(this);
 				break;
-		}
-		
-
-			
+			}			
 		}
 	}
 	

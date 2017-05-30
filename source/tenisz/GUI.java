@@ -69,7 +69,7 @@ public class GUI extends JFrame{
 		prmenu.frame.setVisible(false);
 		prgamefield = new PrGamefield(control);
 		//prgamefield.initialize(control);
-														/*prgamefield.frame.setVisible(true);*/
+		prgamefield.frame.setVisible(true);
 		control.startGame();
 		
 

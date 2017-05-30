@@ -9,8 +9,8 @@ public class Player implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-		private String name; 
-		private String type;
+		private String name = null; 
+		private String type = null;
 
 		private final int WIDTH = 5;
 		private final int HEIGHT = 50;
@@ -84,8 +84,8 @@ public class Player implements Serializable{
 			return type;
 		}
 
-		public void setType(String type) {
-			this.type = type;
+		public void setType(String Ptype) {
+			this.type = Ptype;
 		}
 		
 		public void copyPlayer (Player player){
