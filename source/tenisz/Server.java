@@ -14,54 +14,64 @@ public class Server extends Network {
 	
 	private ServerSocket serverSocket = null;
 	private Socket clientSocket = null;
-	private ObjectOutputStream out = null;
 	private ObjectInputStream in = null;
-		
+	private ObjectOutputStream out = null;
+			
 	public Server(Control control) {
 		super(control);
 	}
 	
-	public MySocket mySocket = new MySocket(ctrl);
+	public DataFromClient myCData = new DataFromClient(ctrl);
+	public DataFromServer mySData = new DataFromServer(ctrl);
 	
 	public class ReceiverThread implements Runnable {
+
+		private Socket clientSocket;
+		private ObjectInputStream in;
+		private ObjectOutputStream out;
 
 		public void run() {
 			try {
 				System.out.println("Waiting for Client");
 				clientSocket = serverSocket.accept();
-				System.out.println("Client connected.");
-				mySocket.playerC = ctrl.getPlayer2();
-				mySocket.playerS = ctrl.getPlayer1();			
-				mySocket.playerC.setType("Client");
-				mySocket.playerS.setType("Server");
-				ctrl.setPlayer1(mySocket.playerS);
-				ctrl.setPlayer2(mySocket.playerC);
-				ctrl.joinSuccesfull(ctrl.getPlayer2());
+				System.out.println("Client connected to Server");
+				
 			} catch (IOException e) {
 				System.err.println("Accept failed.");
+				e.printStackTrace();
 				disconnect();
 				return;
 			}
-
-			try {
-				out = new ObjectOutputStream(clientSocket.getOutputStream());
-				in = new ObjectInputStream(clientSocket.getInputStream());
-				out.flush();											// memória szemét kiflushására
-			} catch (IOException e) {
-				System.err.println("Error while getting streams.");
-				disconnect();
-				return;
-			}
-
+			
 			try {
 				while (true) {
-					mySocket = (MySocket) in.readObject();
-					System.out.println("Klienstõl elvettem az adatot");
+					if(clientSocket.isConnected()) System.out.println("socket_OK");
+					else System.out.println("socket_NOT_OK");
+					mySData.updateData();
+					mySData.test1 += 1;
+					mySData.test2 += 2;
+					System.out.println("Updating Server datapack...");
+					in = new ObjectInputStream(clientSocket.getInputStream());
+					myCData = (DataFromClient) in.readObject();
+					System.out.println("Receiving Client datapack...");
+					in = null;
+					
+					out = new ObjectOutputStream(clientSocket.getOutputStream());
+					out.writeObject(mySData);
+					System.out.println("Sending Server datapack...");
+					out = null;
+					
+					printCuccC();
+					printCuccS();
 				}
 			} catch (Exception ex) {
-				System.out.println(ex.getMessage());
 				System.err.println("Client disconnected!");
-			} finally {
+				System.out.println(ex.getMessage());
+				ex.printStackTrace();
+				System.err.println("Or Error while getting streams.");
+				disconnect();
+				return;
+			}finally {
 				disconnect();
 			}
 		}
@@ -73,21 +83,25 @@ public class Server extends Network {
 		disconnect();
 		try {
 			serverSocket = new ServerSocket(10007);
-
+			System.out.println("Creating Server socket");
 			Thread rec = new Thread(new ReceiverThread());
+			System.out.println("Creating Thread");
 			rec.start();
+			System.out.println("Thread is Running");
+			if(clientSocket.isConnected()){
+				System.out.println("The Game has started");
+				ctrl.joinSuccesfull();
+				System.out.println("joinSuccess!!!");
+			}
+			
 		} catch (IOException e) {
 				System.err.println("Could not listen on " + host);
+				e.printStackTrace();
+				disconnect();
 		}
 		
 	}
-	
-	@Override
-	public int getRacketPos() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+		
 	@Override
 	void disconnect() {
 		try {
@@ -102,65 +116,47 @@ public class Server extends Network {
 		} catch (IOException ex) {
 			Logger.getLogger(Server.class.getName()).log(Level.SEVERE,
 					null, ex);
+			ex.printStackTrace();
 		}
 		
 	}
-
+	
 	@Override
-	public void sendRacketPos(int pos) {
-		mySocket.setRposS(pos);
-		
-		if (out == null)
-			return;
-		System.out.println("Sending DATA to Server");
-		try {
-			out.writeObject(mySocket);
-			out.flush();
-		} catch (IOException ex) {
-			System.err.println("Send error.");
-		}
-		
-	}
-
-	@Override
-	public void sendData(int ball_x, int ball_y, int player1Score, int player2Score) {
-		mySocket.setBallX(ctrl);
-		mySocket.setBallY(ctrl);
-		mySocket.setP1score(getScore1());
-		mySocket.setP2score(getScore2());
-		
-		if (out == null)
-			return;
-		System.out.println("Sending DATA to Server");
-		try {
-			out.writeObject(mySocket);
-			out.flush();
-		} catch (IOException ex) {
-			System.err.println("Send error.");
-		}
-		
-	}
-
-	@Override
-	public int getX() {
+	DataFromClient getReceivedDataFromClient() {
 		// TODO Auto-generated method stub
-		return 0;
+		return myCData;
 	}
 
 	@Override
-	public int getY() {
+	DataFromServer getReceivedDataFromServer() {
 		// TODO Auto-generated method stub
-		return 0;
+		return mySData;
 	}
 
 	@Override
-	public int getScore1() {
-		return ctrl.getScore().getCurrentScorePlayer2();
+	void updateGame() {
+		ctrl.getPlayer2().setY(myCData.posY);
+		ctrl.setplayer2Up(myCData.ClientUp);
+		ctrl.setplayer2Down(myCData.ClientDown);		
 	}
-
-	@Override
-	public int getScore2() {
-		return ctrl.getScore().getCurrentScorePlayer1();
+	
+	void printCuccS(){
+		System.out.println("SBallX: " + mySData.ballPosX + 
+				" SBallY: " + mySData.ballPosY + 
+				" SRackY: " + mySData.posY + 
+				" ServScore: " + mySData.serverScore + 
+				" ClientScore: " + mySData.clientScore + 
+				" ServerUP: " + mySData.serverUp + 
+				" ServerDown: " + mySData.serverDown + 
+				"Test nums: " + mySData.test1 + " " + mySData.test2);
+	}
+	
+	void printCuccC(){
+		System.out.println("CRackY: " + myCData.posY +
+				" ClientUP: " + myCData.ClientUp +
+				" ClientDown: " + myCData.ClientDown + 
+				"Test nums: " + myCData.test1 + " " + myCData.test2);
+		
 	}
 
 	

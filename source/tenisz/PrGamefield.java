@@ -19,6 +19,10 @@ import java.awt.event.KeyEvent;
 
 public class PrGamefield /*extends JPanel*/{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JFrame frame;
 	public JLabel lblNewLabel_2;
 	public JLabel lblNewLabel_3;
@@ -56,7 +60,7 @@ public class PrGamefield /*extends JPanel*/{
 	 * Create the application.
 	 */
 	public PrGamefield(Control control) {
-		//initialize(control);
+		initialize(control);
 	//	this.score = score; 
 	
 	}

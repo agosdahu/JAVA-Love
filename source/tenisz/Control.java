@@ -4,20 +4,27 @@ import java.util.concurrent.TimeUnit;
 
 class Control {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GUI gui = new GUI();
 	private Network net = null;
 	private DB db = new DB();
+	
 	private Player player1 = new Player("Player", 0, 0, 5);
 	private boolean player1Up = false;
 	private boolean player1Down = false;
 	
 	private Player player2 = new Player("Player", 0, 0, 5);
+	private boolean player2Up = false;
+	private boolean player2Down = false;
 	
 	private Ball ball = new Ball(0, 0, 5, 5, 10);
 	private boolean ballUp = true;	// true: UP direction, false: DOWN direction
 	private boolean ballRight = false; //true: RIGHT direction, false: LEFT direction
 	
-	private Score score = new Score(3, 0, 0);
+	private Score score = new Score(300, 0, 0);
 
 	
 
@@ -73,6 +80,22 @@ class Control {
 		this.player1Down = down;
 	}
 	
+	public boolean getplayer2Up() {
+		return player2Up;
+	}
+
+	public void setplayer2Up(boolean up) {
+		this.player2Up = up;
+	}
+	
+	public boolean getplayer2Down() {
+		return player2Down;
+	}
+
+	public void setplayer2Down(boolean down) {
+		this.player2Down = down;
+	}
+	
 	public void selectOptions(){
 		gui.showOptions(this);
 	}
@@ -90,32 +113,35 @@ class Control {
 	}
 	
 	public void startServer() {
-		if (net != null)
-			net.disconnect();
+		if (net != null) net.disconnect();
 		net = new Server(this);
-				net.connect("localhost");
+		net.connect("localhost");
+				
 		player1.setType("Server");
+		player2.setType("Client");
 	}
 	
 		public void startClient() {
-		if (net != null)
-			net.disconnect();
+		if (net != null) net.disconnect();
 		net = new Client(this);
 		net.connect("localhost");
+		
 		player1.setType("Client");
+		player2.setType("Server");
 	}
 	public void newGame(){
 		gui.showGameField(this);
 	}
 		
-	public void joinSuccesfull(Player player){
-		player2 = player;
+	public void joinSuccesfull(){
+		
 		gui.showGameField(this);
 		newGame();
 	}
 
 	public void startGame(){
 		score.setScore(score.getScore());
+		System.out.println("Set start game config");
 		score.setCurrentScorePlayer1(0);
 		score.setCurrentScorePlayer2(0);
 		try {
@@ -207,17 +233,19 @@ class Control {
 		while(score.getCurrentScorePlayer1() != score.getScore() && score.getCurrentScorePlayer2() != score.getScore()){
 			TimeUnit.MILLISECONDS.sleep(40);
 			if(player1.getType() == "Server"){
+								
+				net.updateGame();
 				ballPos(ball.getX(), ball.getY());
-				racketPos(player1.getX(), player1.getY());
+				racketPos(player1.getY(), 200);
 				updateScore();																/*!!!!!!*/
-				net.sendData(ball.getX(), ball.getY(), this.getScore().getCurrentScorePlayer1(), this.getScore().getCurrentScorePlayer2());			/*!!!!!!*/
+				
 				gui.refreshgui(this);	
 			}
 			if(player1.getType() == "Client"){
+												
 				racketPos(player1.getX(), player1.getY());
-				ball.setX(net.getX());									/*!!!!!!*/
-				ball.setY(net.getY());									/*!!!!!!*/
-				score.setCurrentScore(net.getScore1(), net.getScore2());	/*!!!!!!*/
+				net.updateGame();
+				
 				gui.refreshgui(this);
 				}
 			if(score.getCurrentScorePlayer1() == score.getScore() || score.getCurrentScorePlayer2() == score.getScore()){
@@ -240,7 +268,7 @@ class Control {
 		
 		//x-direction motion
 		if(ballRight && hitRacket(true)){ //hits the right racket
-			if(getplayer1Up() || getplayer1Down()){
+			if(getplayer1Up() || getplayer1Down() || player2Up || player2Down){
 				ball.setSpeed(ball.getBendSpeed());
 			}
 			
@@ -307,8 +335,7 @@ class Control {
 			player1.setY(player1.getY() + player1.getSpeed());
 		else 
 			player1.setY(player1.getY());
-		net.sendRacketPos(player1.getY());			/*!!!!!!*/
-		player2.setY(net.getRacketPos());			/*!!!!!!*/
+			player2.setY(player2.getY());			/*!!!!!!*/
 	}
 	
 	private void updateScore() {
@@ -347,20 +374,8 @@ class Control {
 		}
 		else
 			return false;
-		if(player1.getType() == "Client"){
-			if(ball.getX() < player2.getX()){
-				score.setCurrentScorePlayer1((score.getCurrentScorePlayer1() + 1));
-				return true;
-			}
-					
-			if(ball.getX() > player1.getX()){
-				score.setCurrentScorePlayer2((score.getCurrentScorePlayer2() + 1));
-				return true;
-			}
-		}
-		else
-			return false;
 		return false;
+		
 		
 	}
 	

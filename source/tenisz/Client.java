@@ -11,27 +11,53 @@ import javax.swing.JOptionPane;
 public class Client extends Network {
 	
 	private Socket socket = null;
-	private ObjectOutputStream out = null;
-	private ObjectInputStream in = null;
 	
+	private volatile Thread rec;
+		
 	public Client(Control control) {
 		super(control);
 	}
 	
-	public MySocket mySocket = new MySocket(ctrl);
+	public DataFromClient myCData = new DataFromClient(ctrl);
+	public DataFromServer mySData = new DataFromServer(ctrl);
+	private ObjectInputStream in = null;
+	private ObjectOutputStream out = null;
 
 	public class ReceiverThread implements Runnable {
 		
+		private ObjectOutputStream out;
+		private ObjectInputStream in;
+
 		public void run() {
-			System.out.println("Waiting for DATA");
 			try {
-				while (true) {
-						mySocket = (MySocket) in.readObject();
-						System.out.println("Szervertõl elvettem az adatot");
+				Thread thisThread = Thread.currentThread();
+				while (rec == thisThread) {
+						if(socket.isConnected()) System.out.println("socket_OK");
+						else System.out.println("socket_NOT_OK");
+						myCData.updateData();
+						myCData.test1 += 1;
+						myCData.test2 += 2;
+						System.out.println("Updating Client datapack...");
+						out = new ObjectOutputStream(socket.getOutputStream());
+						out.writeObject(myCData);
+						System.out.println("Sending Client datapack");
+						out = null;
+						
+						System.out.println("Sending Client datapack...");
+						in = new ObjectInputStream(socket.getInputStream());
+						mySData = (DataFromServer) in.readObject();
+						System.out.println("Receiving Server datapack...");
+						in = null;
+						
+						printCuccC();
+						printCuccS();
 					}
 			} catch (Exception ex) {
+				System.out.println("Exception get message: ");
 				System.out.println(ex.getMessage());
-				System.err.println("Server disconnected!");
+				ex.printStackTrace();
+				System.err.println("Server disconnected! " + ex);
+				disconnect();
 			} finally {
 				disconnect();
 			}
@@ -41,83 +67,32 @@ public class Client extends Network {
 	@Override
 	void connect (String host) {
 		disconnect();
+		
 		try {
 			socket = new Socket(host, 10007);
-			System.out.println("Socket inic");
-			in = new ObjectInputStream(socket.getInputStream());
-			System.out.println("in stream");
-			out = new ObjectOutputStream(socket.getOutputStream());
-			System.out.println("out stream");
-			out.flush();
-			System.out.println("flush a szálelõtt");			
-			Thread rec = new Thread(new ReceiverThread());
-			System.out.println("Inic a szál");
-			rec.start();										// itt indul a szál!
-			System.out.println("Elindult a szál");
-			mySocket.playerC = ctrl.getPlayer1();
-			mySocket.playerS = ctrl.getPlayer2();			
-			mySocket.playerC.setType("Client");
-			mySocket.playerS.setType("Server");
-			ctrl.setPlayer1(mySocket.playerC);
-			ctrl.joinSuccesfull(ctrl.getPlayer2());
+			System.out.println("Connecting to Server...");
+			rec = new Thread(new ReceiverThread());
+			System.out.println("Thread start...");
+			rec.start();
+			System.out.println("Thread Running...");
+			if(socket.isConnected()){
+				System.out.println("Connected to Server...");
+				System.out.println("The Game has started");
+				ctrl.joinSuccesfull();
+			}
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host");
+			e.printStackTrace();
+			disconnect();
 		} catch (IOException e) {
+			disconnect();
 			System.err.println(e.getStackTrace());
 			System.err.println("Couldn't get I/O for the connection. ");
 			JOptionPane.showMessageDialog(null, "Cannot connect to server!");
 		}
 		
 	}
-	
-	@Override
-	public int getRacketPos() {
-		int serverRack = mySocket.getRposS();
-		return serverRack;
-	}
-	
-	@Override
-	public int getScore1() {
-		return mySocket.getP1score();
-	}
-	
-	@Override
-	public int getScore2() {
-		// TODO Auto-generated method stub
-		return mySocket.getP2score();
-	}
-	
-	@Override
-	public void sendData() {
-		mySocket.setRposC(ctrl.getPlayer1().getY());
-		
-		if (out == null)
-			return;
-		System.out.println("Sending DATA to Server");
-		try {
-			out.writeObject(mySocket);
-			out.flush();
-		} catch (IOException ex) {
-			System.err.println("Send error.");
-		}		
-	}
-	@Override
-	public void sendRacketPos(int pos) {
-		mySocket.setRposC(pos);
-		
-	}
-	
-	@Override
-	public int getX() {
-		return mySocket.getBallX();
-	}
-	
-	@Override
-	public int getY() {
-		return mySocket.getBallY();
-	}
-	
-		
+			
 	@Override
 	void disconnect() {
 		try {
@@ -127,6 +102,8 @@ public class Client extends Network {
 				in.close();
 			if (socket != null)
 				socket.close();
+			if (Thread.currentThread() != null)
+				rec = null;
 		} catch (IOException ex) {
 			System.err.println("Error while closing conn.");
 		}
@@ -134,9 +111,48 @@ public class Client extends Network {
 	}
 
 	@Override
-	public void sendData(int ball_x, int ball_y, int player1Score, int player2Score) {
+	DataFromClient getReceivedDataFromClient() {
 		// TODO Auto-generated method stub
+		return myCData;
+	}
+
+	@Override
+	DataFromServer getReceivedDataFromServer() {
+		// TODO Auto-generated method stub
+		return mySData;
+	}
+
+	@Override
+	public void updateGame() {
+		ctrl.getPlayer2().setY(mySData.posY);
+		ctrl.getBall().setX(mySData.ballPosX);
+		ctrl.getBall().setY(mySData.ballPosY);
+		ctrl.getScore().setCurrentScorePlayer1(mySData.clientScore);
+		ctrl.getScore().setCurrentScorePlayer2(mySData.serverScore);
 		
+	}
+	
+	void printCuccS(){
+		System.out.println("SBallX: " + mySData.ballPosX + 
+				" SBallY: " + mySData.ballPosY + 
+				" SRackY: " + mySData.posY + 
+				" ServScore: " + mySData.serverScore + 
+				" ClientScore: " + mySData.clientScore + 
+				" ServerUP: " + mySData.serverUp + 
+				" ServerDown: " + mySData.serverDown + 
+				"Test nums: " + mySData.test1 + " " + mySData.test2);
+	}
+	
+	void printCuccC(){
+		System.out.println("CRackY: " + myCData.posY +
+				" ClientUP: " + myCData.ClientUp +
+				" ClientDown: " + myCData.ClientDown + 
+				"Test nums: " + myCData.test1 + " " + myCData.test2);
+		
+	}
+	
+	public void stopThread(){
+		rec = null;
 	}
 
 	

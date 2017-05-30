@@ -79,6 +79,7 @@ public class Pr {
 				control.setScore(Integer.parseInt(txtGoal.getText()));
 				control.showMenu();
 				frame.setVisible(false);
+				
 			}
 		});
 		
