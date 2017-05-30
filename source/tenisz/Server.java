@@ -16,6 +16,8 @@ public class Server extends Network {
 	private Socket clientSocket = null;
 	private ObjectInputStream in = null;
 	private ObjectOutputStream out = null;
+	
+	private volatile Thread rec;
 			
 	public Server(Control control) {
 		super(control);
@@ -44,7 +46,8 @@ public class Server extends Network {
 			}
 			
 			try {
-				while (true) {
+				Thread thisThread = Thread.currentThread();
+				while (rec == thisThread) {
 					if(clientSocket.isConnected()) System.out.println("socket_OK");
 					else System.out.println("socket_NOT_OK");
 					mySData.updateData();
@@ -84,7 +87,7 @@ public class Server extends Network {
 		try {
 			serverSocket = new ServerSocket(10007);
 			System.out.println("Creating Server socket");
-			Thread rec = new Thread(new ReceiverThread());
+			rec = new Thread(new ReceiverThread());
 			System.out.println("Creating Thread");
 			rec.start();
 			System.out.println("Thread is Running");
@@ -113,6 +116,8 @@ public class Server extends Network {
 				clientSocket.close();
 			if (serverSocket != null)
 				serverSocket.close();
+			if (Thread.currentThread() != null)
+				stopThread();;
 		} catch (IOException ex) {
 			Logger.getLogger(Server.class.getName()).log(Level.SEVERE,
 					null, ex);
@@ -121,6 +126,10 @@ public class Server extends Network {
 		
 	}
 	
+	public void stopThread(){
+		rec = null;
+	}
+
 	@Override
 	DataFromClient getReceivedDataFromClient() {
 		// TODO Auto-generated method stub

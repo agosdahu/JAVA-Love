@@ -115,7 +115,7 @@ class Control {
 	public void startServer() {
 		if (net != null) net.disconnect();
 		net = new Server(this);
-		net.connect("localhost");
+		net.connect("192.168.0.36");
 				
 		player1.setType("Server");
 		player2.setType("Client");
@@ -124,7 +124,7 @@ class Control {
 		public void startClient() {
 		if (net != null) net.disconnect();
 		net = new Client(this);
-		net.connect("localhost");
+		net.connect("192.168.0.36");
 		
 		player1.setType("Client");
 		player2.setType("Server");

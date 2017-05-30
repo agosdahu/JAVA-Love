@@ -103,7 +103,7 @@ public class Client extends Network {
 			if (socket != null)
 				socket.close();
 			if (Thread.currentThread() != null)
-				rec = null;
+				stopThread();;
 		} catch (IOException ex) {
 			System.err.println("Error while closing conn.");
 		}
