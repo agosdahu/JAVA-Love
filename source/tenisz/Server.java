@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,7 +94,7 @@ public class Server extends Network {
 			System.out.println("Creating Thread");
 			rec.start();
 			System.out.println("Thread is Running");
-			while(!myCData.handshake){System.out.println("Waiting for Client handshake. Current state is " + myCData.handshake);}
+			while(!myCData.handshake){TimeUnit.MICROSECONDS.sleep(1);/*System.out.println("Waiting for Client handshake. Current state is " + myCData.handshake);*/}
 				System.out.println("The Game has started");
 				ctrl.joinSuccesfull();
 				System.out.println("joinSuccess!!!");
@@ -102,6 +103,9 @@ public class Server extends Network {
 				System.err.println("Could not listen on " + host);
 				e.printStackTrace();
 				disconnect();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}

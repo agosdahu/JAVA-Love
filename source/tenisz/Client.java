@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 
@@ -77,7 +78,7 @@ public class Client extends Network {
 			System.out.println("Thread start...");
 			rec.start();
 			System.out.println("Thread Running...");
-			while (!mySData.handshake){System.out.println("Waiting for Server handshake. Current state is " + mySData.handshake);}
+			while (!mySData.handshake){TimeUnit.MILLISECONDS.sleep(1);/*System.out.println("Waiting for Server handshake. Current state is " + mySData.handshake);*/}
 				System.out.println("Connected to Server...");
 				System.out.println("The Game has started");
 				ctrl.joinSuccesfull();
@@ -90,6 +91,9 @@ public class Client extends Network {
 			System.err.println(e.getStackTrace());
 			System.err.println("Couldn't get I/O for the connection. ");
 			JOptionPane.showMessageDialog(null, "Cannot connect to server!");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
