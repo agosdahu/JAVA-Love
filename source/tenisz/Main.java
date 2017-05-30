@@ -13,6 +13,7 @@ public class Main {
 	
 	public static void main(String[] args){
 		Control c = new Control();
+		
 		/*Player playerS = new Player("Dini", 0, 0, 5);
 		Player playerC = new Player("Gabor", 0, 0, 5);
 		playerS.setType("Server");

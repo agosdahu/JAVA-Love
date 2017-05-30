@@ -21,9 +21,7 @@ class Control {
 	private boolean ballRight = false; //true: RIGHT direction, false: LEFT direction
 	
 	private Score score = new Score(3, 0, 0);
-
 	
-
 	public Control() {
 		showMenu();
 	}
@@ -234,8 +232,8 @@ class Control {
 		System.out.println("GUI is refreshed");
 				/*!!!!!!*/
 		
-		while(score.getCurrentScorePlayer1() != score.getScore() && score.getCurrentScorePlayer2() != score.getScore()){
-			TimeUnit.MILLISECONDS.sleep(40);
+		while(score.getCurrentScorePlayer1() < score.getScore() && score.getCurrentScorePlayer2() < score.getScore()){
+			TimeUnit.MILLISECONDS.sleep(30);
 			
 			
 			if(player1.getType() == "Server"){

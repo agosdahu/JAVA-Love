@@ -163,14 +163,14 @@ public class Server extends Network {
 				" ClientScore: " + mySData.clientScore + 
 				" ServerUP: " + mySData.serverUp + 
 				" ServerDown: " + mySData.serverDown + 
-				"Test nums: " + mySData.test1 + " " + mySData.test2);
+				" Test nums: " + mySData.test1 + " " + mySData.test2);
 	}
 	
 	void printCuccC(){
 		System.out.println("CRackY: " + myCData.posY +
 				" ClientUP: " + myCData.ClientUp +
 				" ClientDown: " + myCData.ClientDown + 
-				"Test nums: " + myCData.test1 + " " + myCData.test2);
+				" Test nums: " + myCData.test1 + " " + myCData.test2);
 		
 	}
 

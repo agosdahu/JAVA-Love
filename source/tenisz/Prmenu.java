@@ -41,6 +41,7 @@ public class Prmenu {
 		initialize(control);
 	}
 
+	 
 	/**
 	 * Initialize the contents of the frame.
 	 * @wbp.parser.entryPoint
