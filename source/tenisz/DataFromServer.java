@@ -20,6 +20,8 @@ public class DataFromServer implements Serializable{
 	public int test1;
 	public int test2;
 	
+	public boolean handshake;
+	
 	transient Control c;
 
 	

@@ -48,24 +48,26 @@ public class Server extends Network {
 			try {
 				Thread thisThread = Thread.currentThread();
 				while (rec == thisThread) {
-					if(clientSocket.isConnected()) System.out.println("socket_OK");
-					else System.out.println("socket_NOT_OK");
+					//if(clientSocket.isConnected()) System.out.println("socket_OK");
+					//else System.out.println("socket_NOT_OK");
 					mySData.updateData();
 					mySData.test1 += 1;
 					mySData.test2 += 2;
-					System.out.println("Updating Server datapack...");
+					//System.out.println("Updating Server datapack...");
 					in = new ObjectInputStream(clientSocket.getInputStream());
 					myCData = (DataFromClient) in.readObject();
-					System.out.println("Receiving Client datapack...");
+					//System.out.println("Receiving Client datapack...");
 					in = null;
 					
 					out = new ObjectOutputStream(clientSocket.getOutputStream());
 					out.writeObject(mySData);
-					System.out.println("Sending Server datapack...");
+					//System.out.println("Sending Server datapack...");
 					out = null;
 					
-					printCuccC();
-					printCuccS();
+					mySData.handshake = true; 
+					
+					//printCuccC();
+					//printCuccS();
 				}
 			} catch (Exception ex) {
 				System.err.println("Client disconnected!");
@@ -91,12 +93,11 @@ public class Server extends Network {
 			System.out.println("Creating Thread");
 			rec.start();
 			System.out.println("Thread is Running");
-			if(clientSocket.isConnected()){
+			while(!myCData.handshake){System.out.println("Waiting for Client handshake. Current state is " + myCData.handshake);}
 				System.out.println("The Game has started");
 				ctrl.joinSuccesfull();
 				System.out.println("joinSuccess!!!");
-			}
-			
+						
 		} catch (IOException e) {
 				System.err.println("Could not listen on " + host);
 				e.printStackTrace();
@@ -117,7 +118,8 @@ public class Server extends Network {
 			if (serverSocket != null)
 				serverSocket.close();
 			if (Thread.currentThread() != null)
-				stopThread();;
+				stopThread();
+			mySData.handshake = false;
 		} catch (IOException ex) {
 			Logger.getLogger(Server.class.getName()).log(Level.SEVERE,
 					null, ex);

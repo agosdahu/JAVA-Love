@@ -32,25 +32,27 @@ public class Client extends Network {
 			try {
 				Thread thisThread = Thread.currentThread();
 				while (rec == thisThread) {
-						if(socket.isConnected()) System.out.println("socket_OK");
-						else System.out.println("socket_NOT_OK");
+						//if(socket.isConnected()) System.out.println("socket_OK");
+						//else System.out.println("socket_NOT_OK");
 						myCData.updateData();
 						myCData.test1 += 1;
 						myCData.test2 += 2;
-						System.out.println("Updating Client datapack...");
+						//System.out.println("Updating Client datapack...");
 						out = new ObjectOutputStream(socket.getOutputStream());
 						out.writeObject(myCData);
-						System.out.println("Sending Client datapack");
+						//System.out.println("Sending Client datapack");
 						out = null;
 						
-						System.out.println("Sending Client datapack...");
+						//System.out.println("Sending Client datapack...");
 						in = new ObjectInputStream(socket.getInputStream());
 						mySData = (DataFromServer) in.readObject();
-						System.out.println("Receiving Server datapack...");
+						//System.out.println("Receiving Server datapack...");
 						in = null;
 						
-						printCuccC();
-						printCuccS();
+						myCData.handshake = true;
+						
+						//printCuccC();
+						//printCuccS();
 					}
 			} catch (Exception ex) {
 				System.out.println("Exception get message: ");
@@ -75,11 +77,10 @@ public class Client extends Network {
 			System.out.println("Thread start...");
 			rec.start();
 			System.out.println("Thread Running...");
-			if(socket.isConnected()){
+			while (!mySData.handshake){System.out.println("Waiting for Server handshake. Current state is " + mySData.handshake);}
 				System.out.println("Connected to Server...");
 				System.out.println("The Game has started");
 				ctrl.joinSuccesfull();
-			}
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host");
 			e.printStackTrace();
@@ -103,7 +104,8 @@ public class Client extends Network {
 			if (socket != null)
 				socket.close();
 			if (Thread.currentThread() != null)
-				stopThread();;
+				stopThread();
+			myCData.handshake = false;
 		} catch (IOException ex) {
 			System.err.println("Error while closing conn.");
 		}
