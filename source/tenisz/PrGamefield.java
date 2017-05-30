@@ -55,8 +55,8 @@ public class PrGamefield /*extends JPanel*/{
 	/**
 	 * Create the application.
 	 */
-	public PrGamefield(Control control) {
-		initialize(control);
+	public PrGamefield(Control ctrl) {
+		initialize(ctrl);
 	//	this.score = score; 
 	
 	}

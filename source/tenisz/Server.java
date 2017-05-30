@@ -67,8 +67,8 @@ public class Server extends Network {
 					
 					mySData.handshake = true; 
 					
-					//printCuccC();
-					//printCuccS();
+					printCuccC();
+					printCuccS();
 				}
 			} catch (Exception ex) {
 				System.err.println("Client disconnected!");
@@ -94,7 +94,7 @@ public class Server extends Network {
 			System.out.println("Creating Thread");
 			rec.start();
 			System.out.println("Thread is Running");
-			while(!myCData.handshake){TimeUnit.MICROSECONDS.sleep(1);/*System.out.println("Waiting for Client handshake. Current state is " + myCData.handshake);*/}
+			while(!myCData.handshake){TimeUnit.MICROSECONDS.sleep(40);/*System.out.println("Waiting for Client handshake. Current state is " + myCData.handshake);*/}
 				System.out.println("The Game has started");
 				ctrl.joinSuccesfull();
 				System.out.println("joinSuccess!!!");

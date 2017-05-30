@@ -19,8 +19,6 @@ public class GUI extends JFrame{
 	private PrResult prResult;
 	private Prmenu prmenu;
 	private Pr pr;
-	private PrIP prip;
-	private PrPort prport;
 	private String ip;
 	private int port;
 
@@ -80,20 +78,6 @@ public class GUI extends JFrame{
 		prResult = new PrResult(control);
 		prResult.initialize(control);
 
-	}
-
-	public String getIPaddress() {
-		// TODO Auto-generated method stub
-		prip = new PrIP();
-		ip = prip.initialize();
-		return ip;
-	}
-
-	public int getPort() {
-		// TODO Auto-generated method stub
-		prport = new PrPort();
-		port = prport.initialize();
-		return port;
 	}
 	
 	 public void refreshgui(Control control) {

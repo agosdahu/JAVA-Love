@@ -52,8 +52,8 @@ public class Client extends Network {
 						
 						myCData.handshake = true;
 						
-						//printCuccC();
-						//printCuccS();
+						printCuccC();
+						printCuccS();
 					}
 			} catch (Exception ex) {
 				System.out.println("Exception get message: ");
@@ -78,7 +78,7 @@ public class Client extends Network {
 			System.out.println("Thread start...");
 			rec.start();
 			System.out.println("Thread Running...");
-			while (!mySData.handshake){TimeUnit.MILLISECONDS.sleep(1);/*System.out.println("Waiting for Server handshake. Current state is " + mySData.handshake);*/}
+			while (!mySData.handshake){TimeUnit.MILLISECONDS.sleep(40);/*System.out.println("Waiting for Server handshake. Current state is " + mySData.handshake);*/}
 				System.out.println("Connected to Server...");
 				System.out.println("The Game has started");
 				ctrl.joinSuccesfull();
@@ -133,9 +133,12 @@ public class Client extends Network {
 		ctrl.getPlayer2().setY(mySData.posY);
 		ctrl.getBall().setX(mySData.ballPosX);
 		ctrl.getBall().setY(mySData.ballPosY);
+		ctrl.getBall().setSpeed(mySData.ballSpeed);
 		ctrl.getScore().setCurrentScorePlayer1(mySData.clientScore);
 		ctrl.getScore().setCurrentScorePlayer2(mySData.serverScore);
-		
+		ctrl.getScore().setScore(mySData.finalScore);
+		ctrl.setplayer2Up(mySData.serverUp);
+		ctrl.setplayer2Down(mySData.serverDown);		
 	}
 	
 	void printCuccS(){

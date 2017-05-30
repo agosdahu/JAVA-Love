@@ -58,10 +58,10 @@ public class PrResult {
 		lblTheWinnerIs.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
 		
-		if (control.getScore().getCurrentScorePlayer1() == control.getScore().getScore()) {
+		if (control.getScore().getCurrentScorePlayer1() >= control.getScore().getScore()) {
 			winner = control.getPlayer1().getName();
-		}
-		else if (control.getScore().getCurrentScorePlayer2() == control.getScore().getScore()){
+					}
+		else if (control.getScore().getCurrentScorePlayer2() >= control.getScore().getScore()){
 			winner = control.getPlayer2().getName();
 		}
 			

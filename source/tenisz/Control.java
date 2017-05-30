@@ -8,11 +8,11 @@ class Control {
 	private Network net = null;
 	private DB db = new DB();
 	
-	private Player player1 = new Player("Player", 0, 0, 5);
+	private Player player1 = new Player("Player 1", 0, 0, 5);
 	private boolean player1Up = false;
 	private boolean player1Down = false;
 	
-	private Player player2 = new Player("Player", 0, 0, 5);
+	private Player player2 = new Player("Player 2", 0, 0, 5);
 	private boolean player2Up = false;
 	private boolean player2Down = false;
 	
@@ -20,7 +20,7 @@ class Control {
 	private boolean ballUp = true;	// true: UP direction, false: DOWN direction
 	private boolean ballRight = false; //true: RIGHT direction, false: LEFT direction
 	
-	private Score score = new Score(300, 0, 0);
+	private Score score = new Score(3, 0, 0);
 
 	
 
@@ -236,30 +236,34 @@ class Control {
 		
 		while(score.getCurrentScorePlayer1() != score.getScore() && score.getCurrentScorePlayer2() != score.getScore()){
 			TimeUnit.MILLISECONDS.sleep(40);
-			System.out.println("after sleep");
-			System.out.println(player1.getType());
+			
+			
 			if(player1.getType() == "Server"){
-				System.out.println("before UP");				
+								
 				net.updateGame();
-				System.out.println("after UP");
-				ballPos(ball.getX(), ball.getY());
-				racketPos(player1.getY(), 200);
-				updateScore();																/*!!!!!!*/
 				
-				gui.refreshgui(this); System.out.println("GUI is refreshed");	
+				ballPos(ball.getX(), ball.getY());
+				
+				racketPos(player1.getY(), 200);
+				
+				//updateScore();
+				
+				/*!!!!!!*/
+				
+				gui.refreshgui(this);	
 			}
 			if(player1.getType() == "Client"){
+				
+				net.updateGame();
 												
 				racketPos(player1.getX(), player1.getY());
-				System.out.println("before UP");				
-				net.updateGame();
-				System.out.println("after UP");
-				
-				gui.refreshgui(this); System.out.println("GUI is refreshed");
+								
+								
+				gui.refreshgui(this);
 				}
 			
 			
-			if(score.getCurrentScorePlayer1() == score.getScore() || score.getCurrentScorePlayer2() == score.getScore()){
+			if(score.getCurrentScorePlayer1() >= score.getScore() || score.getCurrentScorePlayer2() >= score.getScore()){
 				//if(player1.getType()=="Server")
 					//saveGame(0, 0);
 				gui.showResult(this);

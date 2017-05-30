@@ -14,8 +14,10 @@ public class DataFromServer implements Serializable{
 	public int ballPosY;
 	public int serverScore;
 	public int clientScore;
+	public int finalScore;
 	public boolean serverUp;
 	public boolean serverDown;
+	public int ballSpeed;
 	
 	public int test1;
 	public int test2;
@@ -45,6 +47,10 @@ public class DataFromServer implements Serializable{
 		this.serverDown = c.getplayer1Down();
 		this.ballPosX = c.getBall().getX();
 		this.ballPosY = c.getBall().getY();
+		this.serverScore = c.getScore().getCurrentScorePlayer1();
+		this.clientScore = c.getScore().getCurrentScorePlayer2();
+		this.finalScore = c.getScore().getScore();
+		this.ballSpeed = c.getBall().getSpeed();
 		
 	}
 	
