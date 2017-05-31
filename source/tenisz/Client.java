@@ -150,6 +150,15 @@ public class Client extends Network {
 				" ServerUP: " + mySData.serverUp + 
 				" ServerDown: " + mySData.serverDown + 
 				"Test nums: " + mySData.test1 + " " + mySData.test2);
+		
+		System.out.println("SBallX: " + ctrl.getBall().getX() + 
+				" SBallY: " + ctrl.getBall().getY() + 
+				" SRackY: " + ctrl.getPlayer2().getY() + 
+				" ServScore: " + ctrl.getScore().getCurrentScorePlayer2() + 
+				" ClientScore: " + ctrl.getScore().getCurrentScorePlayer1() + 
+				" ServerUP: " + ctrl.getplayer2Up() + 
+				" ServerDown: " + ctrl.getplayer2Down() + 
+				"Test nums: " + mySData.test1 + " " + mySData.test2);
 	}
 	
 	void printCuccC(){
