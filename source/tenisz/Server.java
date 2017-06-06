@@ -67,13 +67,13 @@ public class Server extends Network {
 					
 					mySData.handshake = true; 
 					
-					printCuccC();
-					printCuccS();
+					//printCuccC();
+					//printCuccS();
 				}
 			} catch (Exception ex) {
 				System.err.println("Client disconnected!");
 				System.out.println(ex.getMessage());
-				ex.printStackTrace();
+				//ex.printStackTrace();
 				System.err.println("Or Error while getting streams.");
 				disconnect();
 				return;

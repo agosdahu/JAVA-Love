@@ -2,9 +2,7 @@ package tenisz;
 
 //import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 
 import java.awt.EventQueue;
@@ -14,6 +12,7 @@ import java.awt.event.MouseEvent;
 public class Prmenu {
 
 	public JFrame frame;
+	protected JTextField target;
 //	private static Control control = new Control();
 	private GUI gui = new GUI();
 
@@ -60,11 +59,17 @@ public class Prmenu {
 				control.startServer();
 			}
 		});
+
+
+		target = new JTextField();
+		target.setText(control.target);
+		target.setColumns(10);
 		
 		JButton btnJoinGame = new JButton("Join Game");
 		btnJoinGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				control.target=target.getText();
 				control.startClient();
 			}
 		});
@@ -84,6 +89,7 @@ public class Prmenu {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(165)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(target, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnOptions, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnJoinGame, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnStartGame, Alignment.LEADING))
@@ -98,6 +104,8 @@ public class Prmenu {
 					.addComponent(btnStartGame)
 					.addGap(30)
 					.addComponent(btnJoinGame)
+					.addGap(30)
+					.addComponent(target)
 					.addContainerGap(58, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);

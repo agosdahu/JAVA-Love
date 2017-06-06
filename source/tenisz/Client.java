@@ -52,13 +52,13 @@ public class Client extends Network {
 						
 						myCData.handshake = true;
 						
-						printCuccC();
-						printCuccS();
+						//printCuccC();
+						//printCuccS();
 					}
 			} catch (Exception ex) {
 				System.out.println("Exception get message: ");
 				System.out.println(ex.getMessage());
-				ex.printStackTrace();
+				//ex.printStackTrace();
 				System.err.println("Server disconnected! " + ex);
 				disconnect();
 			} finally {

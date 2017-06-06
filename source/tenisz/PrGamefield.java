@@ -162,6 +162,7 @@ public class PrGamefield /*extends JPanel*/{
 	    //frame.add(u1);
 	    //frame.getContentPane().add(u1);
 	    //frame.getContentPane().add(u1);
+		frame.pack();
 	    
 	    
 	    JButton btnNewButton = new JButton("Load");
